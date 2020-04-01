@@ -1,0 +1,28 @@
+**/target/classes
+**/bin/
+
+# Maven
+target/
+.mvn   #works for  ./mvn directory
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Eclipse
+/.classpath
+/.settings/
+/.project
+/bin/
+
+# IntelliJ
+.idea
+*.iml
+*.ipr
+*.iws
+
+# Misc
+*.log
+
+#audio
+*.mp3
+*.jpg
