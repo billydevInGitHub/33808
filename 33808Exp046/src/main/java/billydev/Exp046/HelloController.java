@@ -1,5 +1,6 @@
 package billydev.Exp046;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,4 +28,10 @@ public class HelloController {
     public String getFoosAsJsonFromBrowser() {
         return "Get some Foos with Header Old";
     }
+
+    @RequestMapping(value = "/ex/testrequestmethod")
+    public String getMethodArguments(HttpMethod httpMethod){
+        return String.valueOf(httpMethod.matches("GET"));
+    }
+
 }
