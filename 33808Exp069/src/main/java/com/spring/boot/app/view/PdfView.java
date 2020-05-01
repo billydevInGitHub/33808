@@ -25,8 +25,9 @@ public class PdfView extends AbstractPdfView {
 			Document document, PdfWriter writer, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
-		response.setHeader("Content-Disposition",
-				"attachment; filename=\"employees.pdf\"");
+		setContentType("application/pdf");
+//		response.setHeader("Content-Disposition",
+//				"attachment; filename=\"employees.pdf\"");
 		List<Employee> employees = (List<Employee>) model.get("employees");
 		document.add(new Paragraph("Generated Reports " + LocalDate.now()));
 
