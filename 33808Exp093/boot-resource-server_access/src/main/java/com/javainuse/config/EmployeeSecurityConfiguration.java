@@ -27,7 +27,7 @@ public class EmployeeSecurityConfiguration extends WebSecurityConfigurerAdapter 
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationMgr) throws Exception {
-        authenticationMgr.inMemoryAuthentication().withUser("javainuse").password("javainuse")
+        authenticationMgr.inMemoryAuthentication().withUser("javainuse").password("{noop}javainuse")
             .authorities("ROLE_ADMIN");
     }
 }
