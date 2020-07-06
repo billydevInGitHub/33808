@@ -33,7 +33,7 @@ public class HelloController {
     }
 
     @RequestMapping(value = "/showEmployees", method = RequestMethod.GET)
-    public String showEmployees(Model model,@RequestParam("code") String code) throws JsonProcessingException, IOException {
+    public String showEmployees(@RequestParam("code") String code,Model model) throws JsonProcessingException, IOException {
         ResponseEntity<String> response = null;
         System.out.println("Authorization Ccode------" + code);
 
@@ -75,7 +75,7 @@ public class HelloController {
         System.out.println("Returned employees information:"+Arrays.toString(employeeArray));
 //        ModelAndView model = new ModelAndView("showEmployees");
 //        model.addObject("employees", Arrays.asList(employeeArray));
-        model.addAttribute("employees", "hard coded employee name");
+        model.addAttribute("employees", Arrays.toString(employeeArray));
         return "showEmployees";
     }
 }
