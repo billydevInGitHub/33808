@@ -1,20 +1,61 @@
 package com.billydev.blib.model;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
+@Entity
+@Table(name = "Event_Info")
 public class Event_Info {
-	
-	long event_id; 
-	String dtappname; 
-	Timestamp next_scheduled_time; 
-	String eventCreatorUserId; 
+
+
+
+	public void setEventIid(long eventIid) {
+		this.eventId = eventIid;
+	}
+
+	public String getDtAppname() {
+		return dtAppname;
+	}
+
+	public void setDtAppname(String dtAppname) {
+		this.dtAppname = dtAppname;
+	}
+
+	public Timestamp getNextScheduledTime() {
+		return nextScheduledTime;
+	}
+
+	public void setNextScheduledTime(Timestamp nextScheduledTime) {
+		this.nextScheduledTime = nextScheduledTime;
+	}
+
+	public Timestamp getEventCreateTime() {
+		return eventCreateTime;
+	}
+
+	public void setEventCreateTime(Timestamp eventCreateTime) {
+		this.eventCreateTime = eventCreateTime;
+	}
+
+	long eventId;
+	String dtAppname;
+	Timestamp nextScheduledTime;
+	String eventCreatorUserId;
 	String schedule;
 	String state;
 	String userParameters; 
-	Timestamp event_create_time;
-	String description; 
-	
-	
+	Timestamp eventCreateTime;
+	String description;
+	String eventName;
+
+	public String getEventName() {
+		return eventName;
+	}
+
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
+	}
+
 	public String getSchedule() {
 		return schedule;
 	}
@@ -45,14 +86,8 @@ public class Event_Info {
 	}
 
 
-	public Timestamp getEvent_create_time() {
-		return event_create_time;
-	}
 
 
-	public void setEvent_create_time(Timestamp event_create_time) {
-		this.event_create_time = event_create_time;
-	}
 
 
 	public String getDescription() {
@@ -65,10 +100,6 @@ public class Event_Info {
 	}
 
 
-	public String getDtappname() {
-		return dtappname;
-	}
-
 
 	public String getEventCreatorUserId() {
 		return eventCreatorUserId;
@@ -80,43 +111,20 @@ public class Event_Info {
 	}
 
 
-	public Timestamp getNext_scheduled_time() {
-		return next_scheduled_time;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public long getEventId() {
+		return eventId;
 	}
 
-
-	public void setNext_scheduled_time(Timestamp next_scheduled_time) {
-		this.next_scheduled_time = next_scheduled_time;
+	public void setEventId(long eventId) {
+		this.eventId = eventId;
 	}
 
-
-	public void setDtappname(String dtappname) {
-		this.dtappname = dtappname;
-	}
-
-
-	public long getEvent_id() {
-		return event_id;
-	}
-
-
-	public void setEvent_id(long event_id) {
-		this.event_id = event_id;
-	}
-	String event_name; 
-	
-	
 	public Event_Info() {
 		
 	}
 	
-	
-	public String getEvent_name() {
-		return event_name;
-	}
-	public void setEvent_name(String event_name) {
-		this.event_name = event_name;
-	}
 
 	
 

@@ -2,6 +2,7 @@ package com.billydev.orange.service.trigger;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.billydev.blib.model.Event_Info;
 import com.billydev.blib.model.DT_Appl_Info;
@@ -24,7 +25,7 @@ public interface TriggerService {
 
 	RT_Appl_Info trigger_application(Event_Info event_info);
 
-	ArrayList<Event_Info> getAllEvents();  
+	List<Event_Info> getAllEvents();
 	
 
 	

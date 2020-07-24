@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class RuntimeApplicationProcessor {
+
+
 	
 	private ArrayList<CommonMsgInQueue> messages = new ArrayList<>(); 
 	

@@ -70,14 +70,14 @@ public class TriggerServiceImpl implements TriggerService{
 		 * so far just hardcode here
 		 * todo: need to use enscript to replace the hardcode stuff here!! 
 		 */
-		runtime_appl_info.setApplicationName(event_info.getDtappname());
-		runtime_appl_info.setDT_ApplicationName(event_info.getDtappname());
+		runtime_appl_info.setApplicationName(event_info.getDtAppname());
+		runtime_appl_info.setDT_ApplicationName(event_info.getDtAppname());
 		
 		/*
 		 * get the DT application (include dt jobs) from DAO using the DT application name in the event!! 
 		 */
 		
-		DT_Appl_Info dt_appl_info = dtApplRepository.getDesignTime_Appl_info(event_info.getDtappname());
+		DT_Appl_Info dt_appl_info = dtApplRepository.getDesignTime_Appl_info(event_info.getDtAppname());
 		
 		List<DT_Job_Info> list_DT_Job_Info=dt_appl_info.getJobList(); 
 		ArrayList<RT_Job_Info> list_RT_Job_Info= new ArrayList<>(); 
@@ -188,9 +188,9 @@ public class TriggerServiceImpl implements TriggerService{
 
 
 	@Override
-	public ArrayList<Event_Info> getAllEvents() {
+	public List<Event_Info> getAllEvents() {
 		
-		return eventInfoRepository.getAllEvents();
+		return eventInfoRepository.findAll();
 	}
 	
 	/*

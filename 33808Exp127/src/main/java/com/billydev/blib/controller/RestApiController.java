@@ -1,6 +1,7 @@
 package com.billydev.blib.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -216,16 +217,16 @@ public class RestApiController {
 	}
 
 	@RequestMapping(value="/events/", method=RequestMethod.GET , produces = "application/json") 
-	public ResponseEntity<ArrayList<Event_Info>> listEvents(){	
-		ArrayList<Event_Info> listOfEvents= triggerService.getAllEvents();
+	public ResponseEntity<List<Event_Info>> listEvents(){
+		List<Event_Info> listOfEvents= triggerService.getAllEvents();
 //		WrapOfListDTApplInfo returnObject= new WrapOfListDTApplInfo();
 //		returnObject.setDtApplList(listOfAppInfo);
 		
-		if (listOfEvents.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-			// You may decide to return HttpStatus.NOT_FOUND
-		}
-		return new ResponseEntity<ArrayList<Event_Info>>(listOfEvents, HttpStatus.OK);
+//		if (listOfEvents.isEmpty()) {
+//			return new ResponseEntity(HttpStatus.NO_CONTENT);
+//			// You may decide to return HttpStatus.NOT_FOUND
+//		}
+		return new ResponseEntity<List<Event_Info>>(listOfEvents, HttpStatus.OK);
 	
 	}
 	

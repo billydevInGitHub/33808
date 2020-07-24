@@ -56,7 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 		"/api/rt_appl_info/*",
                 		"/api/status_update/",
                 		"/api/getListOfDTAppls/",
-                		"/api/dtapplications/"
+                		"/api/dtapplications/",
+                        "/api/events/"
                 		).permitAll()
                 .anyRequest().authenticated()
                 .and()
