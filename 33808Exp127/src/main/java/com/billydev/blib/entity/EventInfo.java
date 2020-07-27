@@ -1,11 +1,11 @@
-package com.billydev.blib.model;
+package com.billydev.blib.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Event_Info")
-public class Event_Info {
+@Table(name = "EventInfo")
+public class EventInfo {
 
 
 
@@ -121,7 +121,7 @@ public class Event_Info {
 		this.eventId = eventId;
 	}
 
-	public Event_Info() {
+	public EventInfo() {
 		
 	}
 	

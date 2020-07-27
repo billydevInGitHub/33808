@@ -1,7 +1,9 @@
 package com.billydev.orange.service.trigger;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +15,12 @@ import com.billydev.blib.dao.EventInfoRepository;
 import com.billydev.blib.dao.RuntimeApplRepository;
 import com.billydev.blib.dao.RuntimeJobRepository;
 import com.billydev.blib.jobengine.RuntimeApplicationProcessor;
-import com.billydev.blib.model.Event_Info;
+import com.billydev.blib.entity.EventInfo;
 import com.billydev.blib.model.DT_Appl_Info;
 import com.billydev.blib.model.DT_Job_Info;
 import com.billydev.blib.model.RT_Appl_Info;
-import com.billydev.blib.model.RT_Job_Info;
-import com.billydev.blib.model.Runtime_Appl_Info;
+import com.billydev.blib.entity.RTJobInfo;
+import com.billydev.blib.entity.RuntimeApplInfo;
 
 
 
@@ -50,7 +52,7 @@ public class TriggerServiceImpl implements TriggerService{
     
 	@Override
 	@Transactional 
-	public RT_Appl_Info trigger_application(Event_Info event_info) {
+	public RT_Appl_Info trigger_application(EventInfo event_info) {
 		/*
 		 * the method could be used for both manually trigger or scheduled trigger
 		 * 
@@ -63,15 +65,15 @@ public class TriggerServiceImpl implements TriggerService{
 		
 
 		
-		Runtime_Appl_Info runtime_appl_info = new Runtime_Appl_Info();
+		RuntimeApplInfo runtime_appl_info = new RuntimeApplInfo();
 		
 		/*
 		 * the following trigger stuff need to be "enhanced" with real trigger meaning !!
 		 * so far just hardcode here
 		 * todo: need to use enscript to replace the hardcode stuff here!! 
 		 */
-		runtime_appl_info.setApplicationName(event_info.getDtAppname());
-		runtime_appl_info.setDT_ApplicationName(event_info.getDtAppname());
+		runtime_appl_info.setRtApplicationName(event_info.getDtAppname());
+		runtime_appl_info.setDtApplicationName(event_info.getDtAppname());
 		
 		/*
 		 * get the DT application (include dt jobs) from DAO using the DT application name in the event!! 
@@ -80,18 +82,18 @@ public class TriggerServiceImpl implements TriggerService{
 		DT_Appl_Info dt_appl_info = dtApplRepository.getDesignTime_Appl_info(event_info.getDtAppname());
 		
 		List<DT_Job_Info> list_DT_Job_Info=dt_appl_info.getJobList(); 
-		ArrayList<RT_Job_Info> list_RT_Job_Info= new ArrayList<>(); 
+		Set<RTJobInfo> list_RT_Job_Info= new HashSet<>();
 		
 		
 		
 		/*
 		 * insert rt application with return id ,then sync frontend object with db 
 		 */
-		long rtAppId=rtApplRepository.insert_Runtime_Appl_info(runtime_appl_info); 	
+		long rtAppId=rtApplRepository.save(runtime_appl_info).getRtapplId();
 		
 		
 		
-		RT_Job_Info rt_job_info= null;
+		RTJobInfo rt_job_info= null;
 		
 
 		for( DT_Job_Info dt_job_info  : list_DT_Job_Info   ) {
@@ -99,18 +101,18 @@ public class TriggerServiceImpl implements TriggerService{
 			 * dt job info becomes rt job info need to run the enscript 
 			 * todo: here just temp hard coded target IP address!
 			 */
-			rt_job_info= new RT_Job_Info();
-			rt_job_info.setApplication_name(dt_job_info.getDT_Applicatoin_Name());
-			rt_job_info.setJob_type(dt_job_info.getJob_type());
+			rt_job_info= new RTJobInfo();
+			rt_job_info.setRtApplicationName(dt_job_info.getDT_Applicatoin_Name());
+			rt_job_info.setJobType(dt_job_info.getJob_type());
 			rt_job_info.setQualifier(dt_job_info.getQualifier());
-			rt_job_info.setPredecessor_names(dt_job_info.getPredecessor_names());
-			rt_job_info.setJob_name(dt_job_info.getDT_Job_Name());
-			rt_job_info.setAgent_name(dt_job_info.getAgent_name());
-			rt_job_info.setTarget("job-agent-linux");//todo: the trigger procedure need resolve from agentName !! 
-			rt_job_info.setPort(9898);	
-			rt_job_info.setScript(dt_job_info.getScript());  //todo: need to resolve the script name stuff  
+			rt_job_info.setPredecessorNames(dt_job_info.getPredecessor_names());
+			rt_job_info.setJobName(dt_job_info.getDT_Job_Name());
+			rt_job_info.setAgentName(dt_job_info.getAgent_name());
+			rt_job_info.setTarget("job-agent-linux");//todo: the trigger procedure need resolve from agentName !!
+			rt_job_info.setPort(9898);
+			rt_job_info.setScript(dt_job_info.getScript());  //todo: need to resolve the script name stuff
 			rt_job_info.setState("01"); //todo: temp hardcode to wait state
-			rt_job_info.setAppl_generation_number(runtime_appl_info.getGenerationNumber());
+			rt_job_info.setApplGenerationNumber(runtime_appl_info.getApplGenerationNumber());
 			list_RT_Job_Info.add(rt_job_info); 
 		}
 		
@@ -127,8 +129,8 @@ public class TriggerServiceImpl implements TriggerService{
 		 * then need to insert rt_job_info with return id 
 		 */
 		
-		for(RT_Job_Info rt_job_info_updateDb:runtime_appl_info.getJobs()) {
-			rtJobRepository.insert_new_rt_job(rt_job_info_updateDb);
+		for(RTJobInfo rt_job_info_updateDb:runtime_appl_info.getJobs()) {
+			rtJobRepository.save(rt_job_info_updateDb);
 		}
 
 		
@@ -151,9 +153,9 @@ public class TriggerServiceImpl implements TriggerService{
 		
 	RT_Appl_Info returnSimpleRtApplInfo= new RT_Appl_Info(); 
 		returnSimpleRtApplInfo.setAppl_id(rtAppId);
-		returnSimpleRtApplInfo.setApplication_name(runtime_appl_info.getApplicationName());
-		returnSimpleRtApplInfo.setGenerationNumber(runtime_appl_info.getGenerationNumber());
-		
+		returnSimpleRtApplInfo.setApplication_name(runtime_appl_info.getRtApplicationName());
+		returnSimpleRtApplInfo.setGenerationNumber(runtime_appl_info.getApplGenerationNumber());
+//
 		return returnSimpleRtApplInfo; 
 
 	}
@@ -188,7 +190,7 @@ public class TriggerServiceImpl implements TriggerService{
 
 
 	@Override
-	public List<Event_Info> getAllEvents() {
+	public List<EventInfo> getAllEvents() {
 		
 		return eventInfoRepository.findAll();
 	}

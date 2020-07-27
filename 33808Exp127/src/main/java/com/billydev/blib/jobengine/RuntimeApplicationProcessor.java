@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,8 +14,8 @@ import com.billydev.blib.common.CommonConfiguration;
 import com.billydev.blib.common.CommonMsgInQueue;
 import com.billydev.blib.common.CommonUtils;
 import com.billydev.blib.dao.RuntimeJobRepository;
-import com.billydev.blib.model.RT_Job_Info;
-import com.billydev.blib.model.Runtime_Appl_Info;
+import com.billydev.blib.entity.RTJobInfo;
+import com.billydev.blib.entity.RuntimeApplInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -30,13 +31,13 @@ public class RuntimeApplicationProcessor {
     @Autowired
     private RuntimeJobRepository rtJobRepository;
 	
-	public static Boolean setupPrdecessorSuccessorListByName(ArrayList<RT_Job_Info>  list_RT_Job_Info) {
+	public static Boolean setupPrdecessorSuccessorListByName(Set<RTJobInfo>  list_RT_Job_Info) {
 		
 		
 		
-		HashMap<String, RT_Job_Info> hashMapJobs= new HashMap<>(); 
-		for( RT_Job_Info rt_job_info_InList  : list_RT_Job_Info   ) {
-			hashMapJobs.put(rt_job_info_InList.getJob_name(),rt_job_info_InList ); 
+		HashMap<String, RTJobInfo> hashMapJobs= new HashMap<>();
+		for( RTJobInfo rt_job_info_InList  : list_RT_Job_Info   ) {
+			hashMapJobs.put(rt_job_info_InList.getJobName(),rt_job_info_InList );
 		}
 		
 
@@ -44,11 +45,11 @@ public class RuntimeApplicationProcessor {
 		 * need to resolve predecessor id and successor id into the real job objects
 		 * we can only search within this ArrayList for newly triggered jobs !! 
 		 */
-		for( RT_Job_Info rt_job_info_ForPredecessorAndSuccessor  : list_RT_Job_Info   ) {			
+		for( RTJobInfo rt_job_info_ForPredecessorAndSuccessor  : list_RT_Job_Info   ) {
 			
-      	  ArrayList<RT_Job_Info> predecessors= new ArrayList<>();
-      	  String predecessorIds=rt_job_info_ForPredecessorAndSuccessor.getPredecessor_names()==null?"":
-      		  rt_job_info_ForPredecessorAndSuccessor.getPredecessor_names();
+      	  ArrayList<RTJobInfo> predecessors= new ArrayList<>();
+      	  String predecessorIds=rt_job_info_ForPredecessorAndSuccessor.getPredecessorNames()==null?"":
+      		  rt_job_info_ForPredecessorAndSuccessor.getPredecessorNames();
       	  
       	     for(String predecessor : predecessorIds.split(",")){
       	    	 if(hashMapJobs.containsKey(predecessor)) {
@@ -59,9 +60,9 @@ public class RuntimeApplicationProcessor {
 
       	   rt_job_info_ForPredecessorAndSuccessor.setPredecessors(predecessors);
 
-       	  ArrayList<RT_Job_Info> successors= new ArrayList<>();
-       	  String successorIds= rt_job_info_ForPredecessorAndSuccessor.getSuccessor_names()==null?"":
-       		  rt_job_info_ForPredecessorAndSuccessor.getSuccessor_names();
+       	  ArrayList<RTJobInfo> successors= new ArrayList<>();
+       	  String successorIds= rt_job_info_ForPredecessorAndSuccessor.getSuccessorNames()==null?"":
+       		  rt_job_info_ForPredecessorAndSuccessor.getSuccessorNames();
    	      for(String successor :successorIds.split(",")){
   	    	 if(hashMapJobs.containsKey(successor)) {
   	    		 
@@ -133,7 +134,7 @@ public class RuntimeApplicationProcessor {
 		 return true; 
 	}
 	
-	public  Boolean  overallCheckAndProcess(Runtime_Appl_Info runtime_appl_info){
+	public  Boolean  overallCheckAndProcess(RuntimeApplInfo runtime_appl_info){
 
 		/*
 		 *  messages = new ArrayList<>();
@@ -163,10 +164,10 @@ public class RuntimeApplicationProcessor {
 		/*
 		 * get all runtime_job_info
 		 */
-		ArrayList<RT_Job_Info> list_RT_Job_Info= runtime_appl_info.getJobs(); 
+		Set<RTJobInfo> list_RT_Job_Info= runtime_appl_info.getJobs();
 		
 		Check_All_Jobs:	
-				for(RT_Job_Info rt_job_info:list_RT_Job_Info) {
+				for(RTJobInfo rt_job_info:list_RT_Job_Info) {
 					if(isPredecessorCompleted(rt_job_info)) {
 						if(isLinkJob(rt_job_info)) {
 							setComplete(rt_job_info);
@@ -178,7 +179,7 @@ public class RuntimeApplicationProcessor {
 							if(rt_job_info.getState()!=null&&(!rt_job_info.getState().equals(CommonConfiguration.JOB_STATE_COMPLETED))
 									&&(!rt_job_info.getState().equals(CommonConfiguration.JOB_STATE_RUNNING))) {
 								System.out.println("RuntimeApplicatinProcessor: adding new job to msg sending queue, "
-										+ "rt_job_info: job_id:"+rt_job_info.getJob_id()+" job_name:"+rt_job_info.getJob_name()
+										+ "rt_job_info: job_id:"+rt_job_info.getJobId()+" job_name:"+rt_job_info.getJobName()
 										+ " job state: "+rt_job_info.getState()); 
 								/*
 								 * 
@@ -198,7 +199,7 @@ public class RuntimeApplicationProcessor {
 	}
 
 
-	private void trigger_job(RT_Job_Info rt_job_info) {
+	private void trigger_job(RTJobInfo rt_job_info) {
 		
 		CommonMsgInQueue msgInQueue= new CommonMsgInQueue();
 		
@@ -206,11 +207,11 @@ public class RuntimeApplicationProcessor {
 		 * todo: the following still has some hardcoded stuff
 		 */
 		msgInQueue.setMsgType(CommonConfiguration.MSG_JOB_ACTION_CREATE_A_NEW_JOB);
-		msgInQueue.setJobName(rt_job_info.getJob_name());
+		msgInQueue.setJobName(rt_job_info.getJobName());
 		msgInQueue.setTarget(CommonConfiguration.CLIENT_MACHINE_ADDRESS);//todo: we just hard code here in database, we can use agentname field
 		msgInQueue.setTargetPort(CommonConfiguration.CLIENT_LISTEN_PORT);//todo: we need to get this from db as well
 		msgInQueue.setJobScript(rt_job_info.getScript());
-		msgInQueue.setJobId(rt_job_info.getJob_id());
+		msgInQueue.setJobId(rt_job_info.getJobId());
 		
 		
 		messages.add(msgInQueue); 
@@ -218,41 +219,41 @@ public class RuntimeApplicationProcessor {
 
 	
 	
-	public void setRunning(RT_Job_Info rt_job_info) {
+	public void setRunning(RTJobInfo rt_job_info) {
 		rt_job_info.setState(CommonConfiguration.JOB_STATE_RUNNING);
 		/*
 		 * also need sync db
 		 */
-		rtJobRepository.setRTJobRunning(rt_job_info);
+	//AAA	rtJobRepository.setRTJobRunning(rt_job_info);
 		
 	}
 
-	public void setComplete(RT_Job_Info rt_job_info) {
+	public void setComplete(RTJobInfo rt_job_info) {
 		rt_job_info.setState(CommonConfiguration.JOB_STATE_COMPLETED);
 		/*
 		 * also need sync db
 		 */
-		rtJobRepository.setRTJobState(rt_job_info,CommonConfiguration.JOB_STATE_COMPLETED);
+			rtJobRepository.save(rt_job_info);
 		
 	}
 
 
-	private boolean isLinkJob(RT_Job_Info rt_job_info) {
-		if(rt_job_info.getJob_type()!=null&&rt_job_info.getJob_type().equals(CommonConfiguration.JOB_TYPE_LINK)) {
+	private boolean isLinkJob(RTJobInfo rt_job_info) {
+		if(rt_job_info.getJobType()!=null&&rt_job_info.getJobType().equals(CommonConfiguration.JOB_TYPE_LINK)) {
 			return true; 
 		}
 		return false;
 	}
 
 
-	private boolean isPredecessorCompleted(RT_Job_Info rt_job_info) {
+	private boolean isPredecessorCompleted(RTJobInfo rt_job_info) {
 
 		if(rt_job_info.getPredecessors()==null) {
 			System.out.println("RuntimeApplicationProcessor: getPredecessors is null for jobid: "
-		         +rt_job_info.getJob_id()+ " jobName:"+rt_job_info.getJob_name()); 
+		         +rt_job_info.getJobId()+ " jobName:"+rt_job_info.getJobName());
 			return true; 
 		}
-		for(RT_Job_Info predecessorJob : rt_job_info.getPredecessors()) {
+		for(RTJobInfo predecessorJob : rt_job_info.getPredecessors()) {
 			if(predecessorJob.getState().equals(CommonConfiguration.JOB_STATE_COMPLETED)){
 				return true;
 			}else {
