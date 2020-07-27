@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.billydev.blib.common.CommonMsgInQueue;
 import com.billydev.blib.entity.RTJobInfo;
-import com.billydev.blib.entity.RuntimeApplInfo;
+import com.billydev.blib.entity.RTAppInfo;
 
 public interface MonitorService {
 
@@ -13,7 +13,7 @@ public interface MonitorService {
 
 	List<RTJobInfo> findAllJobs();
 
-	RuntimeApplInfo get_Runtime_Appl_info(long appl_id);
+	RTAppInfo get_Runtime_Appl_info(long appl_id);
 
 	Boolean updateFromClient(CommonMsgInQueue msgInQueue);
 

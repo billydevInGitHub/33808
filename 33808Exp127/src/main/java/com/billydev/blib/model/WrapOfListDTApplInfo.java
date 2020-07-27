@@ -1,16 +1,19 @@
 package com.billydev.blib.model;
 
+import com.billydev.blib.entity.DTAppInfo;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class WrapOfListDTApplInfo {
 	
 
-	ArrayList<DT_Appl_Info>  data = new ArrayList<>();
+	List<DTAppInfo>  data = new ArrayList<>();
 
-	public ArrayList<DT_Appl_Info> getDtApplList() {
+	public List<DTAppInfo> getDtApplList() {
 		return data;
 	}
-	public void setDtApplList(ArrayList<DT_Appl_Info> data) {
+	public void setDtApplList(List<DTAppInfo> data) {
 		this.data = data;
 	} 
 	

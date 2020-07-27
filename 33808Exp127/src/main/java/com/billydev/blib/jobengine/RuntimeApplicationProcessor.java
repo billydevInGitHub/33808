@@ -15,7 +15,7 @@ import com.billydev.blib.common.CommonMsgInQueue;
 import com.billydev.blib.common.CommonUtils;
 import com.billydev.blib.dao.RuntimeJobRepository;
 import com.billydev.blib.entity.RTJobInfo;
-import com.billydev.blib.entity.RuntimeApplInfo;
+import com.billydev.blib.entity.RTAppInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -134,7 +134,7 @@ public class RuntimeApplicationProcessor {
 		 return true; 
 	}
 	
-	public  Boolean  overallCheckAndProcess(RuntimeApplInfo runtime_appl_info){
+	public  Boolean  overallCheckAndProcess(RTAppInfo runtime_appl_info){
 
 		/*
 		 *  messages = new ArrayList<>();

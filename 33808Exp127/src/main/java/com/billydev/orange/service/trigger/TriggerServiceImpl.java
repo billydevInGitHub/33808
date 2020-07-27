@@ -16,11 +16,11 @@ import com.billydev.blib.dao.RuntimeApplRepository;
 import com.billydev.blib.dao.RuntimeJobRepository;
 import com.billydev.blib.jobengine.RuntimeApplicationProcessor;
 import com.billydev.blib.entity.EventInfo;
-import com.billydev.blib.model.DT_Appl_Info;
-import com.billydev.blib.model.DT_Job_Info;
+import com.billydev.blib.entity.DTAppInfo;
+import com.billydev.blib.entity.DTJobInfo;
 import com.billydev.blib.model.RT_Appl_Info;
 import com.billydev.blib.entity.RTJobInfo;
-import com.billydev.blib.entity.RuntimeApplInfo;
+import com.billydev.blib.entity.RTAppInfo;
 
 
 
@@ -65,7 +65,7 @@ public class TriggerServiceImpl implements TriggerService{
 		
 
 		
-		RuntimeApplInfo runtime_appl_info = new RuntimeApplInfo();
+		RTAppInfo runtime_appl_info = new RTAppInfo();
 		
 		/*
 		 * the following trigger stuff need to be "enhanced" with real trigger meaning !!
@@ -79,9 +79,9 @@ public class TriggerServiceImpl implements TriggerService{
 		 * get the DT application (include dt jobs) from DAO using the DT application name in the event!! 
 		 */
 		
-		DT_Appl_Info dt_appl_info = dtApplRepository.getDesignTime_Appl_info(event_info.getDtAppname());
+		DTAppInfo dt_appl_info = dtApplRepository.findByDTAppName(event_info.getDtAppname());
 		
-		List<DT_Job_Info> list_DT_Job_Info=dt_appl_info.getJobList(); 
+		Set<DTJobInfo> list_DT_Job_Info=dt_appl_info.getDTJobs();
 		Set<RTJobInfo> list_RT_Job_Info= new HashSet<>();
 		
 		
@@ -89,25 +89,25 @@ public class TriggerServiceImpl implements TriggerService{
 		/*
 		 * insert rt application with return id ,then sync frontend object with db 
 		 */
-		long rtAppId=rtApplRepository.save(runtime_appl_info).getRtapplId();
+		long rtAppId=rtApplRepository.save(runtime_appl_info).getAppId();
 		
 		
 		
 		RTJobInfo rt_job_info= null;
 		
 
-		for( DT_Job_Info dt_job_info  : list_DT_Job_Info   ) {
+		for( DTJobInfo dt_job_info  : list_DT_Job_Info   ) {
 			/*
 			 * dt job info becomes rt job info need to run the enscript 
 			 * todo: here just temp hard coded target IP address!
 			 */
 			rt_job_info= new RTJobInfo();
-			rt_job_info.setRtApplicationName(dt_job_info.getDT_Applicatoin_Name());
-			rt_job_info.setJobType(dt_job_info.getJob_type());
+			rt_job_info.setRtApplicationName(dt_job_info.getDTAppName());
+			rt_job_info.setJobType(dt_job_info.getJobType());
 			rt_job_info.setQualifier(dt_job_info.getQualifier());
-			rt_job_info.setPredecessorNames(dt_job_info.getPredecessor_names());
-			rt_job_info.setJobName(dt_job_info.getDT_Job_Name());
-			rt_job_info.setAgentName(dt_job_info.getAgent_name());
+			rt_job_info.setPredecessorNames(dt_job_info.getPredecessorNames());
+			rt_job_info.setJobName(dt_job_info.getDTJobName());
+			rt_job_info.setAgentName(dt_job_info.getAgentName());
 			rt_job_info.setTarget("job-agent-linux");//todo: the trigger procedure need resolve from agentName !!
 			rt_job_info.setPort(9898);
 			rt_job_info.setScript(dt_job_info.getScript());  //todo: need to resolve the script name stuff
@@ -163,29 +163,28 @@ public class TriggerServiceImpl implements TriggerService{
 
 	@Override
 
-	public ArrayList<DT_Appl_Info> listAllDesignTimeAppls() {
-		return dtApplRepository.listAllDesignTimeAppls(); 
+	public List<DTAppInfo> listAllDesignTimeAppls() {
+		return dtApplRepository.findAll();
 	}
 
 
 	@Override
-	public Boolean createDesignTimeAppl(DT_Appl_Info dtApplInfo) {
-		return dtApplRepository.createDesignTimeAppl(dtApplInfo);
+	public DTAppInfo createDesignTimeAppl(DTAppInfo dtAppInfo) {
+		return dtApplRepository.save(dtAppInfo);
 		
 	}
 	
 	
 	@Override
-	public DT_Appl_Info updateDesignTimeAppl(DT_Appl_Info dtApplInfo) {
-		return dtApplRepository.updateDesignTimeAppl(dtApplInfo);
+	public DTAppInfo updateDesignTimeAppl(DTAppInfo dtAppInfo) {
+		return dtApplRepository.save(dtAppInfo);
 		
 	}
 	
 	
 	@Override
-	public Boolean deleteDesignTimeAppl(long appl_id) {
-		return dtApplRepository.deleteDesignTimeAppl(appl_id);
-		
+	public void deleteDesignTimeAppl(long appl_id) {
+		dtApplRepository.deleteById(appl_id);
 	}
 
 

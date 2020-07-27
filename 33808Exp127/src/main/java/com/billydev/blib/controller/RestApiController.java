@@ -1,6 +1,5 @@
 package com.billydev.blib.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.billydev.orange.service.monitor.MonitorService;
@@ -19,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.billydev.blib.entity.EventInfo;
 import com.billydev.blib.common.CommonMsgInQueue;
 import com.billydev.blib.common.CommonUtils;
-import com.billydev.blib.model.DT_Appl_Info;
+import com.billydev.blib.entity.DTAppInfo;
 import com.billydev.blib.model.RT_Appl_Info;
 import com.billydev.blib.entity.RTJobInfo;
-import com.billydev.blib.entity.RuntimeApplInfo;
+import com.billydev.blib.entity.RTAppInfo;
 import com.billydev.blib.model.WrapOfListDTApplInfo;
 //import com.billydev.orange.service.monitor.MonitorService;
 import com.billydev.orange.service.trigger.TriggerService;
@@ -111,8 +110,8 @@ public class RestApiController {
 	 * Runtime application info
 	 */
 	@RequestMapping(value = "/rtapplication/{appl_id}", method = RequestMethod.GET , produces = "application/json")
-	public ResponseEntity<RuntimeApplInfo> get_runtime_appl_info(@PathVariable("appl_id") long appl_id) {
-		RuntimeApplInfo rtai= monitorService.get_Runtime_Appl_info(appl_id);
+	public ResponseEntity<RTAppInfo> get_runtime_appl_info(@PathVariable("appl_id") long appl_id) {
+		RTAppInfo rtai= monitorService.get_Runtime_Appl_info(appl_id);
 		/*
 		 * temp remove this check
 		 */
@@ -122,7 +121,7 @@ public class RestApiController {
 //		}
 		System.out.println("Returning Runtime_Appl_MonitorView is:"+rtai);
 
-		ResponseEntity<RuntimeApplInfo> response=new ResponseEntity<RuntimeApplInfo>(rtai, HttpStatus.OK);
+		ResponseEntity<RTAppInfo> response=new ResponseEntity<RTAppInfo>(rtai, HttpStatus.OK);
 
 		System.out.println("Response entity is:"+response);
 
@@ -144,24 +143,24 @@ public class RestApiController {
 
 
 	@RequestMapping(value = "/dtapplication/", method = RequestMethod.POST)
-	public ResponseEntity<?> createDTAppl(@RequestBody DT_Appl_Info dtApplInfo) {
-		logger.info("Creating New DT application{}", dtApplInfo);
+	public ResponseEntity<?> createDTAppl(@RequestBody DTAppInfo dtAppInfo) {
+		logger.info("Creating New DT application{}", dtAppInfo);
 
 
-		Boolean returnObject=triggerService.createDesignTimeAppl(dtApplInfo);
+		DTAppInfo returnObject=triggerService.createDesignTimeAppl(dtAppInfo);
 
-		return new ResponseEntity<Boolean>(returnObject, HttpStatus.CREATED);
+		return new ResponseEntity<DTAppInfo>(returnObject, HttpStatus.CREATED);
 	}
 	
 	//todo:remove "/createDTAppl/"
 	@RequestMapping(value = "/createDTAppl/", method = RequestMethod.POST)
-	public ResponseEntity<?> createDTApplOld(@RequestBody DT_Appl_Info dtApplInfo) {
-		logger.info("Creating New DT application{}", dtApplInfo);
+	public ResponseEntity<?> createDTApplOld(@RequestBody DTAppInfo dtAppInfo) {
+		logger.info("Creating New DT application{}", dtAppInfo);
 
 
-		Boolean returnObject=triggerService.createDesignTimeAppl(dtApplInfo);
+		DTAppInfo returnObject=triggerService.createDesignTimeAppl(dtAppInfo);
 
-		return new ResponseEntity<Boolean>(returnObject, HttpStatus.CREATED);
+		return new ResponseEntity<DTAppInfo>(returnObject, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value = "/dtapplication/{appl_id}", method = RequestMethod.DELETE)
@@ -169,30 +168,30 @@ public class RestApiController {
 		logger.info("delete DT application, appl_id:", appl_id);
 
 
-		Boolean returnObject=triggerService.deleteDesignTimeAppl(appl_id);
+		triggerService.deleteDesignTimeAppl(appl_id);
 
-		return new ResponseEntity<Boolean>(returnObject, HttpStatus.OK);
+		return new ResponseEntity<String>("Deleted", HttpStatus.OK);
 	}
 	
 	
 	@RequestMapping(value = "/deleteDTAppl/", method = RequestMethod.POST)
-	public ResponseEntity<?> deleteDTAppl(@RequestBody DT_Appl_Info dtApplInfo) {
-		logger.info("delete DT application, appl_id:", dtApplInfo.getAppl_id());
+	public ResponseEntity<?> deleteDTAppl(@RequestBody DTAppInfo dtAppInfo) {
+		logger.info("delete DT application, appl_id:", dtAppInfo.getAppId());
 
 
-		Boolean returnObject=triggerService.deleteDesignTimeAppl(dtApplInfo.getAppl_id());
+		triggerService.deleteDesignTimeAppl(dtAppInfo.getAppId());
 
-		return new ResponseEntity<Boolean>(returnObject, HttpStatus.CREATED);
+		return new ResponseEntity<String>("Deteleted", HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value = "/dtapplication/", method = RequestMethod.PATCH)
-	public ResponseEntity<?> updateDTAppl(@RequestBody DT_Appl_Info dtApplInfo) {
-		logger.info("Updating DT application{}", dtApplInfo);
+	public ResponseEntity<?> updateDTAppl(@RequestBody DTAppInfo dtAppInfo) {
+		logger.info("Updating DT application{}", dtAppInfo);
 
 
-		DT_Appl_Info returnObject=triggerService.updateDesignTimeAppl(dtApplInfo);
+		DTAppInfo returnObject=triggerService.updateDesignTimeAppl(dtAppInfo);
 
-		return new ResponseEntity<DT_Appl_Info>(returnObject, HttpStatus.OK);
+		return new ResponseEntity<DTAppInfo>(returnObject, HttpStatus.OK);
 	}
 	
 
@@ -200,7 +199,7 @@ public class RestApiController {
 	
 	@RequestMapping(value="/getListOfDTAppls/", method=RequestMethod.GET , produces = "application/json") 
 	public ResponseEntity<WrapOfListDTApplInfo> listOfDTAppls(){	
-		ArrayList<DT_Appl_Info> listOfAppInfo= triggerService.listAllDesignTimeAppls();
+		List<DTAppInfo> listOfAppInfo= triggerService.listAllDesignTimeAppls();
 		WrapOfListDTApplInfo returnObject= new WrapOfListDTApplInfo();
 		returnObject.setDtApplList(listOfAppInfo);
 		
@@ -228,7 +227,7 @@ public class RestApiController {
 	
 	@RequestMapping(value="/dtapplications/", method=RequestMethod.GET , produces = "application/json") 
 	public ResponseEntity<WrapOfListDTApplInfo> listDTapplications(){	
-		ArrayList<DT_Appl_Info> listOfAppInfo= triggerService.listAllDesignTimeAppls();
+		List<DTAppInfo> listOfAppInfo= triggerService.listAllDesignTimeAppls();
 		WrapOfListDTApplInfo returnObject= new WrapOfListDTApplInfo();
 		returnObject.setDtApplList(listOfAppInfo);
 		

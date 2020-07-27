@@ -20,27 +20,25 @@ public class RTJobInfo {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({
-			@JoinColumn(name = "rtappl_id", referencedColumnName = "rtappl_id")
+			@JoinColumn(name = "RTAppId", referencedColumnName = "RTAppId")
 	})
-//	RuntimeApplInfo runtimeApplInfo;
+	long RTAppId;
 
-	long rtappl_id;
-
-	public long getRtappl_id() {
-		return rtappl_id;
+	public long getRTAppId() {
+		return RTAppId;
 	}
 
-	public void setRtappl_id(long rtappl_id) {
-		this.rtappl_id = rtappl_id;
+	public void setRTAppId(long RTAppId) {
+		this.RTAppId = RTAppId;
 	}
 
-	public long getRtapp_id() {
-		return rtappl_id;
-	}
-
-	public void setRtapp_id(long rtapp_id) {
-		this.rtappl_id = rtapp_id;
-	}
+//	public long getRtapp_id() {
+//		return RTAppId;
+//	}
+//
+//	public void setRtapp_id(long rtapp_id) {
+//		this.RTAppId = rtapp_id;
+//	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

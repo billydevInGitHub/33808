@@ -18,7 +18,7 @@ import com.billydev.blib.common.CommonUtils;
 import com.billydev.blib.dao.RuntimeJobRepository;
 import com.billydev.blib.jobengine.RuntimeApplicationProcessor;
 import com.billydev.blib.entity.RTJobInfo;
-import com.billydev.blib.entity.RuntimeApplInfo;
+import com.billydev.blib.entity.RTAppInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -54,12 +54,12 @@ public class MonitorServiceImpl implements MonitorService{
 //	}
 
 
-	public RuntimeApplInfo get_Runtime_Appl_info(long appl_id) {
+	public RTAppInfo get_Runtime_Appl_info(long appl_id) {
 
 		/*
 		 * todo: this service is kind of temp one
 		 */
-		RuntimeApplInfo rtai = rtApplRepository.findByrtapplId(appl_id);
+		RTAppInfo rtai = rtApplRepository.getOne(appl_id);
 
 		return rtai;
 	}
@@ -104,7 +104,7 @@ public class MonitorServiceImpl implements MonitorService{
 		/*
 		 * after state update, we need to do the overall state transform of the application
 		 */
-		RuntimeApplInfo rtApplInfo=rtApplRepository.getOne(rt_job_info.getJobId());
+		RTAppInfo rtApplInfo=rtApplRepository.getOne(rt_job_info.getJobId());
 
 		/*
 		 * we got the predecessor names setup, but predecessor list not setup

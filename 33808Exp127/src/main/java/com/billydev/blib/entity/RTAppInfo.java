@@ -9,21 +9,21 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "RuntimeApplInfo")
-public class RuntimeApplInfo {
+@Table(name = "RuntimeAppInfo")
+public class RTAppInfo {
 
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	long rtapplId;
+	long appId;
 
 
-	public long getRtapplId() {
-		return rtapplId;
+	public long getAppId() {
+		return appId;
 	}
 
-	public void setRtapplId(long rtapplId) {
-		this.rtapplId = rtapplId;
+	public void setAppId(long appId) {
+		this.appId = appId;
 	}
 
 	/*
@@ -32,7 +32,7 @@ public class RuntimeApplInfo {
 	 */
 	@OneToMany(
 			targetEntity=RTJobInfo.class,
-			mappedBy = "rtappl_id",
+			mappedBy = "RTAppId",
 			cascade = CascadeType.PERSIST,
 			fetch = FetchType.LAZY
 	)
