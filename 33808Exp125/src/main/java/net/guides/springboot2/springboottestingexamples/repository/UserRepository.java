@@ -21,4 +21,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query("select u from User u where u.firstname like %?1")
 	List<User> findByFirstnameEndsWith(String firstname);
+
+	@Query(value = "select * from users, employees", nativeQuery = true)
+	List<User> findUserCrossEmpolyee();
 }

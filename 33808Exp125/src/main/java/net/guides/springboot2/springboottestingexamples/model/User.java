@@ -19,6 +19,18 @@ public class User {
 	private int age;
 	private int active;
 
+	public User() {
+	}
+
+	public User(String firstname, String lastname, Date startDate, String emailAddress, int age, int active) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.startDate = startDate;
+		this.emailAddress = emailAddress;
+		this.age = age;
+		this.active = active;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public long getId() {
