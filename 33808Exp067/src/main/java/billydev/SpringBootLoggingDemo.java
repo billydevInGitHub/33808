@@ -19,5 +19,18 @@ public class SpringBootLoggingDemo {
 
         log.info("spring boot application started!");
         log.error("test error");
+        log.info(log.toString());
+
+
+        String message = "This is a String";
+        Integer zero = 0;
+
+        try {
+            log.debug("Logging message: {}", message);
+            log.debug("Going to divide {} by {}", 42, zero);
+            int result = 42 / zero;
+        } catch (Exception e) {
+            log.error("Error dividing {} by {} ", 42, zero, e);
+        }
     }
 }
