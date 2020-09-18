@@ -19,28 +19,14 @@ public class HelloController {
     public String index() {
         String greeting = "Greetings from Spring Boot!";
         System.out.println(greeting);
+        try {
+            Thread.sleep(Constants.THREAD_SLEEP_TIME);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         counter.increment();
         return greeting;
     }
 
-    @RequestMapping(value = "/ex/foos", headers = "key=val", method = GET)
-    @ResponseBody
-    public String getFoosWithHeader() {
-        return "Get some Foos with Header";
-    }
-
-    @RequestMapping(
-            value = "/ex/foos",
-            method = GET,
-            headers = "Accept=application/json")
-    @ResponseBody
-    public String getFoosAsJsonFromBrowser() {
-        return "Get some Foos with Header Old";
-    }
-
-    @RequestMapping(value = "/ex/testrequestmethod")
-    public String getMethodArguments(HttpMethod httpMethod){
-        return String.valueOf(httpMethod.matches("GET"));
-    }
 
 }

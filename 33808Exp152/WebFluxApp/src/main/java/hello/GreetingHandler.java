@@ -1,5 +1,6 @@
 package hello;
 
+import billydev.Constants;
 import io.micrometer.core.instrument.Counter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,6 +20,11 @@ public class GreetingHandler {
 
 	public Mono<ServerResponse> hello(ServerRequest request) {
 		counter.increment();
+		try {
+			Thread.sleep(Constants.THREAD_SLEEP_TIME);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN)
 			.body(BodyInserters.fromValue("Hello, Spring!"));
 	}

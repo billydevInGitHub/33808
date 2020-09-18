@@ -8,13 +8,12 @@ import java.util.Date;
 public class LoadTestRun {
 
 
-    private static final int THREAD_NUMBER=300;
 
     public static void main(String[] args) {
 
         System.out.println("client start time:"+ new Date().toString());
         final String uri = "http://localhost:8080";
-        for (int i = 0; i < THREAD_NUMBER; i++) {
+        for (int i = 0; i < Constants.THREAD_NUMBER; i++) {
             new Thread(()->{
 
                 RestTemplate restTemplate = new RestTemplate();
