@@ -6,3 +6,9 @@ spring:
           github:
             client-id: 7a53c7593fb2ca88c9d7
             client-secret: ba1fe647ce076408f152867afe84fe82687137cf
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+  file:
+      path: C:\\Temp\\200501\\Exp084
