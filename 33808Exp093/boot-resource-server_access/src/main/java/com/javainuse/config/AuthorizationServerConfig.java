@@ -14,7 +14,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient("javainuse").secret("{noop}secret").authorizedGrantTypes("authorization_code")
+        clients.inMemory().withClient("javainuse_clientid").secret("{noop}secret").authorizedGrantTypes("authorization_code")
             .scopes("read").authorities("CLIENT").redirectUris("http://localhost:8090/showEmployees");
     }
 }
