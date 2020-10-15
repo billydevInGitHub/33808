@@ -81,7 +81,8 @@ public class TriggerServiceImpl implements TriggerService{
 		
 		DTAppInfo dt_appl_info = dtApplRepository.findByDTAppName(event_info.getDtAppname());
 		
-		Set<DTJobInfo> list_DT_Job_Info=dt_appl_info.getDTJobs();
+//		Set<DTJobInfo> list_DT_Job_Info=dt_appl_info.getDTJobs();
+		Set<DTJobInfo> list_DT_Job_Info=new HashSet<>();
 		Set<RTJobInfo> list_RT_Job_Info= new HashSet<>();
 		
 		

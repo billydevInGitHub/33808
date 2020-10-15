@@ -1,5 +1,6 @@
 package com.billydev.blib.entity;
 
+import com.billydev.blib.entity.RTJobInfo;
 import com.billydev.blib.model.Diagram_Line_Info;
 import com.billydev.blib.model.Diagram_Rect_Info;
 
@@ -8,44 +9,21 @@ import java.util.ArrayList;
 import java.util.Set;
 
 
-@Entity
-@Table(name = "rtAppInfo")
-public class RTAppInfo {
-
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	long appId;
-
-
-	public long getAppId() {
-		return appId;
-	}
-
-	public void setAppId(long appId) {
-		this.appId = appId;
-	}
+@Entity(name="RuntimeApplInfo")
+@Table(name = "RuntimeApplInfo")
+public class RuntimeApplInfo {
 
 	/*
 	 * the following is job info
 	 * we can add this when needed
 	 */
 	@OneToMany(
-			targetEntity=RTJobInfo.class,
-			mappedBy = "RTAppId",
+			mappedBy = "rtApplicationName",
 			cascade = CascadeType.PERSIST,
 			fetch = FetchType.LAZY
 	)
 	Set<RTJobInfo> jobs;
 
-
-
-
-	String dtApplicationName;
-	String state;
-
-	String rtApplicationName;
-	long applGenerationNumber;
 
 	public String getRtApplicationName() {
 		return rtApplicationName;
@@ -54,22 +32,6 @@ public class RTAppInfo {
 	public void setRtApplicationName(String rtApplicationName) {
 		this.rtApplicationName = rtApplicationName;
 	}
-
-	public long getApplGenerationNumber() {
-		return applGenerationNumber;
-	}
-
-	public void setApplGenerationNumber(long applGenerationNumber) {
-		this.applGenerationNumber = applGenerationNumber;
-	}
-
-	/*
-	 * the following the diagram part
-	 */
-	ArrayList<Diagram_Rect_Info> datasetForRect = new ArrayList<>();
-	ArrayList<Diagram_Line_Info> datasetForLine = new ArrayList<>();
-
-
 
 	public String getDtApplicationName() {
 		return dtApplicationName;
@@ -103,7 +65,13 @@ public class RTAppInfo {
 		this.datasetForLine = datasetForLine;
 	}
 
+	public long getGenerationNumber() {
+		return generationNumber;
+	}
 
+	public void setGenerationNumber(long generationNumber) {
+		this.generationNumber = generationNumber;
+	}
 
 	public Set<RTJobInfo> getJobs() {
 		return jobs;
@@ -113,7 +81,22 @@ public class RTAppInfo {
 		this.jobs = jobs;
 	}
 
+	/*
+	 * the following is appl info
+	 */
+	@Id
+	String rtApplicationName;
+	String dtApplicationName;
+	String state;
 
+	/*
+	 * the following the diagram part
+	 */
+	ArrayList<Diagram_Rect_Info> datasetForRect = new ArrayList<>();
+	ArrayList<Diagram_Line_Info> datasetForLine = new ArrayList<>();
+
+//	@Id
+	long generationNumber ;
 
 
 	
