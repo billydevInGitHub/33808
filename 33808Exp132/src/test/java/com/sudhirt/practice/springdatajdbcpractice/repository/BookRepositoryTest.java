@@ -19,10 +19,10 @@ public class BookRepositoryTest {
 
 	@Test
 	public void createBookWithAuthor() {
-		Author author = Author.builder().firstName("John").lastName("Miller").dateOfBirth(LocalDate.of(1972, 03, 01))
+		Author author = Author.builder().id(17L).firstName("John").lastName("Miller").dateOfBirth(LocalDate.of(1972, 03, 01))
 				.build();
 		authorRepository.save(author);
-		Book book = Book.builder().name("My Book").isbn("ISBN1234").publishedDate(LocalDate.of(2018, 12, 12))
+		Book book = Book.builder().id(18L).name("mybook").isbn("ISBN1234").publishedDate(LocalDate.of(2018, 12, 12))
 				.price(12.99).build();
 		book.addAuthor(authorRepository.save(author));
 		bookRepository.save(book);
@@ -32,11 +32,11 @@ public class BookRepositoryTest {
 
 	@Test
 	public void createBookWithMultipleAuthors() {
-		Author author1 = Author.builder().firstName("John").lastName("Miller").dateOfBirth(LocalDate.of(1972, 03, 01))
+		Author author1 = Author.builder().id(7L).firstName("John").lastName("Miller").dateOfBirth(LocalDate.of(1972, 03, 01))
 				.build();
-		Author author2 = Author.builder().firstName("John").lastName("Miller").dateOfBirth(LocalDate.of(1972, 03, 01))
+		Author author2 = Author.builder().id(8L).firstName("John2").lastName("Miller").dateOfBirth(LocalDate.of(1972, 03, 01))
 				.build();
-		Book book = Book.builder().name("My Book").isbn("ISBN1234").publishedDate(LocalDate.of(2018, 12, 12))
+		Book book = Book.builder().id(10L).name("My Book").isbn("ISBN1234").publishedDate(LocalDate.of(2018, 12, 12))
 				.price(12.99).build();
 		book.addAuthor(authorRepository.save(author1));
 		book.addAuthor(authorRepository.save(author2));
