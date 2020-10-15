@@ -13,7 +13,7 @@
 			<p>
 				<label>Enter Employee Id</label>
 				 <input type="text" name="response_type" value="code" /> 
-				 <input type="text" name="client_id" value="javainuse" />
+				 <input type="text" name="client_id" value="javainuse_clientid" />
 				 <input type="text" name="redirect_uri" value="http://localhost:8090/showEmployees" />
 				 <input type="text" name="scope" value="read" /> 
 				 <input type="SUBMIT" value="Get Employee info" />

@@ -39,7 +39,7 @@ public class HelloController {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        String credentials = "javainuse:secret";
+        String credentials = "javainuse_clientid:secret";
         String encodedCredentials = new String(Base64.encodeBase64(credentials.getBytes()));
 
         HttpHeaders headers = new HttpHeaders();
