@@ -24,7 +24,9 @@ public class Test {
         Flux.generate(sink -> {
             sink.next("Echo");
             sink.complete();
-        }).subscribe(System.out::println);
+        }).subscribe(
+                System.out::println
+        );
 
         System.out.println("\r\n==using create method: ");
         Flux.create(sink -> {
