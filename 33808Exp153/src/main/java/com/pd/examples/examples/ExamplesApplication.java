@@ -10,7 +10,7 @@ import java.lang.management.ManagementFactory;
 @SpringBootApplication
 public class ExamplesApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws MalformedObjectNameException, NotCompliantMBeanException, InstanceAlreadyExistsException, MBeanRegistrationException {
 		ApplicationContext applicationContext = SpringApplication.run(ExamplesApplication.class, args);
 		
 		TestMbean obj = (TestMbean) applicationContext.getBean("testMbean");
