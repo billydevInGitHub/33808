@@ -12,7 +12,11 @@ import com.spring.boot.app.view.PdfView;
 public class PdfViewResolver implements ViewResolver {
     @Override
     public View resolveViewName(String s, Locale locale) throws Exception {
-        PdfView view = new PdfView();
-        return view;
+        if("pdf".equals(s.toLowerCase())){
+            PdfView view = new PdfView();
+            return view;
+        }else{
+            return null;
+        }
     }
 }

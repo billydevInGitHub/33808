@@ -10,7 +10,11 @@ import com.spring.boot.app.view.CsvView;
 public class CsvViewResolver implements ViewResolver {
 	@Override
 	public View resolveViewName(String s, Locale locale) throws Exception {
-		CsvView view = new CsvView();
-		return view;
+		if ("csv".equals(s.toLowerCase())) {
+			CsvView view = new CsvView();
+			return view;
+		} else {
+			return null;
+		}
 	}
 }

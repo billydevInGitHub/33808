@@ -11,7 +11,11 @@ import com.spring.boot.app.view.ExcelView;
 public class ExcelViewResolver implements ViewResolver {
     @Override
     public View resolveViewName(String s, Locale locale) throws Exception {
-       ExcelView view = new ExcelView();
-        return view;
+        if ("excel".equals(s.toLowerCase())) {
+            ExcelView view = new ExcelView();
+            return view;
+        } else {
+            return null;
+        }
     }
 }

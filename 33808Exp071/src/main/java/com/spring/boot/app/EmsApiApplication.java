@@ -8,5 +8,6 @@ public class EmsApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EmsApiApplication.class, args);
+		System.out.println();
 	}
 }

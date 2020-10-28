@@ -22,9 +22,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Override
-	public void configureContentNegotiation(
-			ContentNegotiationConfigurer configurer) {
-		configurer.defaultContentType(MediaType.APPLICATION_JSON)
+	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+		configurer
+				.defaultContentType(MediaType.APPLICATION_JSON)
 				.favorPathExtension(true);
 	}
 
@@ -34,29 +34,29 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 		resolver.setPrefix("/WEB-INF/jsp/");
 		resolver.setSuffix(".jsp");
-		resolver.setViewNames("hello");
+		resolver.setViewNames(new String[]{"hello"});
 		return resolver;
 	}
 
 	/*
 	 * Configure ContentNegotiatingViewResolver
 	 */
-	@Bean
-	public ViewResolver contentNegotiatingViewResolver(
-			ContentNegotiationManager manager) {
-		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
-		resolver.setContentNegotiationManager(manager);
-
-		// Define all possible view resolvers
-		List<ViewResolver> resolvers = new ArrayList<>();
-//		resolvers.add(csvViewResolver());
-//		resolvers.add(excelViewResolver());
-		resolvers.add(pdfViewResolver());
-		resolvers.add(internalViewResolver());
-
-		resolver.setViewResolvers(resolvers);
-		return resolver;
-	}
+//	@Bean
+//	public ViewResolver contentNegotiatingViewResolver(
+//			ContentNegotiationManager manager) {
+//		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+//		resolver.setContentNegotiationManager(manager);
+//
+//		// Define all possible view resolvers
+//		List<ViewResolver> resolvers = new ArrayList<>();
+////		resolvers.add(csvViewResolver());
+////		resolvers.add(excelViewResolver());
+//		resolvers.add(pdfViewResolver());
+//		resolvers.add(internalViewResolver());
+//
+//		resolver.setViewResolvers(resolvers);
+//		return resolver;
+//	}
 
 	/*
 	 * Configure View resolver to provide XLS output using Apache POI library to
