@@ -1,5 +1,6 @@
 package com.jdriven.flights;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.boot.SpringApplication;
@@ -32,7 +33,7 @@ public class FlightsApplication {
 
 	@PostMapping("/search")
 	public String search(Model model) {
-		model.addAttribute("flights", List.of("Flight one", "Flight two", "Flight three"));
+		model.addAttribute("flights", Arrays.asList("Flight one", "Flight two", "Flight three"));
 		return "index";
 	}
 
