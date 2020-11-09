@@ -1,5 +1,5 @@
 issuer:
-  uri: http://uaa:8090/uaa
+  uri: http://192.168.1.100:8090/uaa
 
 encryption:
   encryption_keys:
