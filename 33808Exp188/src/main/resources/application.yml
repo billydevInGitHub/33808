@@ -1,0 +1,10 @@
+logging.level:
+  ROOT: INFO
+  org.springframework: DEBUG
+  org.springframework.security: DEBUG
+  com.adeliosys: DEBUG
+
+management:
+  endpoint:
+    health:
+      show-details=always:
