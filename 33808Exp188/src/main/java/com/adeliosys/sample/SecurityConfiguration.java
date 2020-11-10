@@ -44,7 +44,7 @@ public class SecurityConfiguration {
                 User.withDefaultPasswordEncoder()
                         .username("admin")
                         .password("password")
-                        .roles("USER,ADMIN")
+                        .roles("USER","ADMIN")
                         .build());
     }
 }
