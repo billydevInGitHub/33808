@@ -46,8 +46,8 @@ public class GithubClient {
          return webClient.get()
                 .uri("/user/repos?sort={sortField}&direction={sortDirection}",
                         "updated", "desc")
-                .exchange()
-                .flatMapMany(clientResponse -> clientResponse.bodyToFlux(GithubRepo.class));
+                .exchange().log().checkpoint("test check point")
+                .flatMapMany(clientResponse -> clientResponse.bodyToFlux(GithubRepo.class)).log();
     }
 
     public Mono<GithubRepo> createGithubRepository(RepoRequest createRepoRequest) {

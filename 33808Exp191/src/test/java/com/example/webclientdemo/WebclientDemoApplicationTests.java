@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
 
 
@@ -25,6 +26,7 @@ public class WebclientDemoApplicationTests {
 
 	@Test
 	public void test1CreateGithubRepository() {
+		Hooks.onOperatorDebug();
 		RepoRequest repoRequest = new RepoRequest("test-webclient-repository", "Repository created for testing WebClient");
 
 		webTestClient.post().uri("/api/repos")
