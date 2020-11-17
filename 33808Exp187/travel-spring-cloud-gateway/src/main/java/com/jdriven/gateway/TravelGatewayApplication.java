@@ -12,12 +12,14 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import reactor.tools.agent.ReactorDebugAgent;
 
 @SpringBootApplication
 @Controller
 public class TravelGatewayApplication {
 
 	public static void main(String[] args) {
+		ReactorDebugAgent.init();
 		SpringApplication.run(TravelGatewayApplication.class, args);
 	}
 
