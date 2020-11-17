@@ -24,6 +24,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Flux<User> getAllUsers() {
+
         // get as stream
         return Flux.fromStream(userMap.values().stream());
     }

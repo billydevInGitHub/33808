@@ -1,5 +1,6 @@
 package billydev;
 
+import billydev.loggable.Loggable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/user")
+    @Loggable
     public Flux<User> listUser() {
 
         Flux<User> user = userRepository.getAllUsers();
