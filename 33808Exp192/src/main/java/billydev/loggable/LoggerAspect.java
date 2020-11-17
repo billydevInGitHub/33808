@@ -6,6 +6,7 @@ import lombok.var;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
@@ -24,7 +25,8 @@ import java.util.concurrent.atomic.AtomicReference;
 @Slf4j
 public class LoggerAspect {
 
-    @Around("@annotation(Loggable)")
+
+    @Around("execution(* org.springframework.boot.actuate.metrics.web.reactive.server.MetricsWebFilter.filter(..))")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
 
         long start = System.currentTimeMillis();

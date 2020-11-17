@@ -16,7 +16,6 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/user")
-    @Loggable
     public Flux<User> listUser() {
 
         Flux<User> user = userRepository.getAllUsers();

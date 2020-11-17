@@ -27,6 +27,9 @@ public class UserRepositoryImpl implements UserRepository {
 
         // get as stream
         return Flux.fromStream(userMap.values().stream());
+
+        // Uncomment the following line when do the stackback
+//        return Flux.error(new RuntimeException("Test exception thrown from controller"));
     }
 
     @Override
