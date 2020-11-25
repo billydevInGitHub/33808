@@ -3,6 +3,7 @@ package com.example.jpa.controller;
 import com.example.jpa.exception.ResourceNotFoundException;
 import com.example.jpa.model.Post;
 import com.example.jpa.repository.PostRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,16 +21,19 @@ public class PostController {
     @Autowired
     private PostRepository postRepository;
 
+    @Operation(summary = "Get all posts")
     @GetMapping("/posts")
     public Page<Post> getAllPosts(Pageable pageable) {
         return postRepository.findAll(pageable);
     }
 
+    @Operation(summary = "Create a new post")
     @PostMapping("/posts")
     public Post createPost(@Valid @RequestBody Post post) {
         return postRepository.save(post);
     }
 
+    @Operation(summary = "Update a post")
     @PutMapping("/posts/{postId}")
     public Post updatePost(@PathVariable Long postId, @Valid @RequestBody Post postRequest) {
         return postRepository.findById(postId).map(post -> {
@@ -40,7 +44,7 @@ public class PostController {
         }).orElseThrow(() -> new ResourceNotFoundException("PostId " + postId + " not found"));
     }
 
-
+    @Operation(summary = "Delete a post")
     @DeleteMapping("/posts/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable Long postId) {
         return postRepository.findById(postId).map(post -> {

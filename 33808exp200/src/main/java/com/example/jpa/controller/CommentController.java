@@ -4,6 +4,7 @@ import com.example.jpa.exception.ResourceNotFoundException;
 import com.example.jpa.model.Comment;
 import com.example.jpa.repository.CommentRepository;
 import com.example.jpa.repository.PostRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,12 +24,14 @@ public class CommentController {
     @Autowired
     private PostRepository postRepository;
 
+    @Operation(summary = "Get comments for a specific post")
     @GetMapping("/posts/{postId}/comments")
     public Page<Comment> getAllCommentsByPostId(@PathVariable (value = "postId") Long postId,
                                                 Pageable pageable) {
         return commentRepository.findByPostId(postId, pageable);
     }
 
+    @Operation(summary = "Create a new comment for a post")
     @PostMapping("/posts/{postId}/comments")
     public Comment createComment(@PathVariable (value = "postId") Long postId,
                                  @Valid @RequestBody Comment comment) {
@@ -38,6 +41,7 @@ public class CommentController {
         }).orElseThrow(() -> new ResourceNotFoundException("PostId " + postId + " not found"));
     }
 
+    @Operation(summary = "update a comment")
     @PutMapping("/posts/{postId}/comments/{commentId}")
     public Comment updateComment(@PathVariable (value = "postId") Long postId,
                                  @PathVariable (value = "commentId") Long commentId,
@@ -52,6 +56,7 @@ public class CommentController {
         }).orElseThrow(() -> new ResourceNotFoundException("CommentId " + commentId + "not found"));
     }
 
+    @Operation(summary = "Delete a specific comment")
     @DeleteMapping("/posts/{postId}/comments/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable (value = "postId") Long postId,
                               @PathVariable (value = "commentId") Long commentId) {
