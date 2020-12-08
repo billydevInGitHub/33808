@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="billydev.mapper.ClazzMapper">
+    <resultMap id="ClazzExtendMap" type="billydev.entity.ClazzExtend">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <collection property="students" ofType="billydev.entity.Student">
+            <result column="sId" jdbcType="INTEGER" property="id"/>
+            <result column="sName" jdbcType="VARCHAR" property="name"/>
+            <result column="sNumber" jdbcType="VARCHAR" property="number"/>
+            <result column="sClassId" jdbcType="INTEGER" property="clazzId"/>
+            <result column="sAge" jdbcType="INTEGER" property="age"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectWithStudentsById" parameterType="java.lang.Integer"  resultMap="ClazzExtendMap">
+        select
+        c.id as id,
+        c.name as name,
+        s.id as sId,
+        s.name as sName,
+        s.number as sNumber,
+        s.class_id as sClassId,
+        s.age as sAge
+        from student as s, class as c
+        where s.class_id=c.id
+        and c.id=#{id}
+    </select>
+</mapper>

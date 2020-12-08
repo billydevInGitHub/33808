@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="billydev.mapper.StudentMapper">
+    <resultMap id="BaseResultMap" type="billydev.entity.Student">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="class_id" jdbcType="INTEGER" property="clazzId"/>
+        <result column="age" jdbcType="INTEGER" property="age"/>
+        <result column="number" jdbcType="VARCHAR" property="number"/>
+    </resultMap>
+
+    <update id="updateStudent"  parameterType="billydev.entity.Student">
+        update student set
+        <if test="Student.name!=null">
+            name=#{name}
+        </if>
+        <if test="Student.age!=null">
+            age=#{age}
+        </if>
+        <if test="Student.clazzId!=null">
+            class_id=#{clazzId}
+        </if>
+        <if test="Student.number!=null">
+            number=#{number}
+        </if>
+    </update>
+
+
+    <insert id="insertStudent" parameterType="billydev.entity.Student" useGeneratedKeys="true" keyProperty="id">
+        insert into student(name, age, class_id, number) values
+        (#{name},#{age},#{class_id},#{number});
+    </insert>
+
+    <select id="findStudentById" resultMap="BaseResultMap">
+        select * from student where id=#{id};
+    </select>
+
+    <delete id="deleteStudentById" parameterType="java.lang.Integer">
+        delete student where id=#{id}
+    </delete>
+</mapper>
