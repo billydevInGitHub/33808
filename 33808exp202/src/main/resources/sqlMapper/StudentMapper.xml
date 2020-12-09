@@ -33,7 +33,7 @@
 
     <insert id="insertStudent" parameterType="billydev.entity.Student" useGeneratedKeys="true" keyProperty="id">
         insert into student(name, age, class_id, number) values
-        (#{name},#{age},#{class_id},#{number});
+        (#{student.name},#{student.age},#{student.clazzId},#{student.number});
     </insert>
 
     <select id="findStudentById" resultMap="BaseResultMap">
@@ -41,6 +41,6 @@
     </select>
 
     <delete id="deleteStudentById" parameterType="java.lang.Integer">
-        delete student where id=#{id}
+        delete from student where id=#{id}
     </delete>
 </mapper>

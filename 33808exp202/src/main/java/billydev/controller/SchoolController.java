@@ -16,24 +16,38 @@ import java.util.List;
 @RestController
 public class SchoolController {
 
-
     @Autowired
     StudentService studentService;
 
     @Autowired
     ClazzMapper clazzMapper;
 
-    @GetMapping("/{id}")
+    @GetMapping("/class/{id}")
     ClazzExtend getAllStudentsByClassId(@PathVariable int id ){
         return clazzMapper.selectWithStudentsById(id);
     }
 
-    @PostMapping("/")
-    int updateStudent(@RequestBody Student student) {
+    @PostMapping("/student")
+    int insertStudent(@RequestBody Student student) {
+        return studentService.insertStudent(student);
+    }
+
+    @GetMapping("/student/{id}")
+    Student getStudentById(@PathVariable int id) {
+        return studentService.getStudentById(id).orElseThrow(()->new RuntimeException("Student Not found Exception"));
+    }
+
+    @PutMapping("/student/{id}")
+    int updateStudent(@RequestBody Student student, @PathVariable int id) {
+        // usually student only has fields other than id
+        if(id!=student.getId().intValue()){
+            student.setId(id);
+        }
         return studentService.updateStudent(student);
     }
 
-    
-
-
+    @DeleteMapping("/student/{id}")
+    void deleteStudent(@PathVariable int id) {
+        studentService.deleteStudentById(id);
+    }
 }
