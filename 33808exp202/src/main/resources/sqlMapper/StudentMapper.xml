@@ -12,19 +12,22 @@
     </resultMap>
 
     <update id="updateStudent"  parameterType="billydev.entity.Student">
-        update student set
-        <if test="Student.name!=null">
-            name=#{name}
+        update student
+        <set>
+        <if test="student.name!=null">
+            name=#{student.name},
         </if>
-        <if test="Student.age!=null">
-            age=#{age}
+        <if test="student.age!=null">
+            age=#{student.age},
         </if>
-        <if test="Student.clazzId!=null">
-            class_id=#{clazzId}
+        <if test="student.clazzId!=null">
+            class_id=#{student.clazzId},
         </if>
-        <if test="Student.number!=null">
-            number=#{number}
+        <if test="student.number!=null">
+            number=#{student.number}
         </if>
+        </set>
+         where id = #{student.id}
     </update>
 
 

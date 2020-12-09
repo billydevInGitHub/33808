@@ -4,11 +4,9 @@ import billydev.entity.ClazzExtend;
 import billydev.entity.Student;
 import billydev.mapper.ClazzMapper;
 import billydev.mapper.StudentMapper;
+import billydev.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,8 +16,9 @@ import java.util.List;
 @RestController
 public class SchoolController {
 
+
     @Autowired
-    StudentMapper studentMapper;
+    StudentService studentService;
 
     @Autowired
     ClazzMapper clazzMapper;
@@ -29,6 +28,12 @@ public class SchoolController {
         return clazzMapper.selectWithStudentsById(id);
     }
 
+    @PostMapping("/")
+    int updateStudent(@RequestBody Student student) {
+        return studentService.updateStudent(student);
+    }
+
+    
 
 
 }
