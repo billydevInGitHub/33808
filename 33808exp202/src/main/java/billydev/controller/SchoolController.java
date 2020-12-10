@@ -5,6 +5,7 @@ import billydev.entity.Student;
 import billydev.mapper.ClazzMapper;
 import billydev.mapper.StudentMapper;
 import billydev.service.StudentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 /**
  * @author Billy
  */
+@Slf4j
 @RestController
 public class SchoolController {
 
@@ -24,12 +26,15 @@ public class SchoolController {
 
     @GetMapping("/class/{id}")
     ClazzExtend getAllStudentsByClassId(@PathVariable int id ){
+        log.debug("request of getAllStudentsByClassId executed with class id:{}", id);
         return clazzMapper.selectWithStudentsById(id);
     }
 
     @PostMapping("/student")
     int insertStudent(@RequestBody Student student) {
-        return studentService.insertStudent(student);
+        int rowNumInserted=studentService.insertStudent(student);
+        log.info("{} row(s) inserted for student entity", rowNumInserted);
+        return rowNumInserted;
     }
 
     @GetMapping("/student/{id}")
@@ -43,11 +48,14 @@ public class SchoolController {
         if(id!=student.getId().intValue()){
             student.setId(id);
         }
-        return studentService.updateStudent(student);
+        int rowNumberUpdated=studentService.updateStudent(student);
+        log.info("{} row(s) updated with student id:{}", rowNumberUpdated, student.getId());
+        return rowNumberUpdated;
     }
 
     @DeleteMapping("/student/{id}")
     void deleteStudent(@PathVariable int id) {
         studentService.deleteStudentById(id);
+        log.info("student with id :{} deleted", id);
     }
 }

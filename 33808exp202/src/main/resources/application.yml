@@ -21,10 +21,13 @@ pagehelper:
   reasonable: true
 logging:
   level:
-    root: info
+    root: debug
+    billydev: debug
+  pattern:
+    level: "%X{remoteHost}%5p"
 management:
   endpoints:
     web:
       exposure:
         include: "*"
-debug: true
+#debug: true
