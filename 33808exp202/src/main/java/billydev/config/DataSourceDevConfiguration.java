@@ -1,6 +1,5 @@
 package billydev.config;
 
-
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -12,8 +11,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
 import javax.sql.DataSource;
 
@@ -21,13 +23,12 @@ import javax.sql.DataSource;
  * @author Billy
  */
 @Configuration
-@ConditionalOnProperty(name = "spring.datasource.dbcp2.url", matchIfMissing = false)
 @MapperScan(value = { "billydev.mapper" }, sqlSessionFactoryRef = "sqlSessionFactory")
-@Profile("Production")
-public class DataSourceConfiguration {
+@Profile("Dev")
+public class DataSourceDevConfiguration {
 
     @Bean(name = "dataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.dbcp2")
+    @ConfigurationProperties(prefix = "spring.datasource.mem")
     public DataSource dataSource() {
         return new BasicDataSource();
     }
@@ -49,4 +50,15 @@ public class DataSourceConfiguration {
         return sessionFactory.getObject();
     }
 
+    @Bean
+    public DataSourceInitializer dataSourceInitializer()
+    {
+        DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
+        dataSourceInitializer.setDataSource(dataSource());
+        ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
+        databasePopulator.addScript(new ClassPathResource("db-setup.sql"));
+        dataSourceInitializer.setDatabasePopulator(databasePopulator);
+        dataSourceInitializer.setEnabled(true);
+        return dataSourceInitializer;
+    }
 }

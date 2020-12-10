@@ -14,9 +14,14 @@ spring:
       validation-query: SELECT 1 FROM DUAL
       test-while-idle: true
       test-on-borrow: false
-    type: org.apache.commons.dbcp2.BasicDataSource
-
-pagehelper:
+    mem:
+      driver-class-name: org.h2.Driver
+      url: jdbc:h2:mem:securitydb;DB_CLOSE_DELAY=-1
+      username: sa
+      password:
+  profiles:
+    active: Production
+  pagehelper:
   helperDialect: mysql
   reasonable: true
 logging:
@@ -31,3 +36,4 @@ management:
       exposure:
         include: "*"
 #debug: true
+
