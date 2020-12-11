@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.SecurityBuilder;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
@@ -32,10 +33,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         JdbcUserDetailsManager manager = new JdbcUserDetailsManager();
         manager.setDataSource(dataSource);
         if (!manager.userExists("billy")) {
-            manager.createUser(User.withUsername("billy").password(passwordEncoder().encode("123456")).roles("admin").build());
+            manager.createUser(User.withUsername("billy")
+                    .password(passwordEncoder()
+                            .encode("123456")).roles("admin","student").build());
         }
-        if (!manager.userExists("user")) {
-            manager.createUser(User.withUsername("user").password(passwordEncoder().encode("123456")).roles("user").build());
+        if (!manager.userExists("studentuser")) {
+            manager.createUser(User.withUsername("studentuser").password(passwordEncoder().encode("123456")).roles("student").build());
         }
         return manager;
     }
@@ -52,5 +55,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/js/**", "/css/**", "/images/**","/class/**");
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/actuator/**").hasRole("admin")
+                .antMatchers("/student/**").hasRole("student")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin();
     }
 }
