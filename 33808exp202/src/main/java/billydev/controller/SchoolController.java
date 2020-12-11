@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Billy
@@ -24,8 +25,14 @@ public class SchoolController {
     @Autowired
     ClazzMapper clazzMapper;
 
-    @GetMapping("/class/{id}")
-    ClazzExtend getAllStudentsByClassId(@PathVariable int id ){
+    @GetMapping(value="/")
+    ClazzExtend getAllStudentsByClassIdDefault(){
+        log.debug("request of getAllStudentsByClassId executed with class id:{}", 1);
+        return clazzMapper.selectWithStudentsById(1);
+    }
+
+    @GetMapping(value={"/class/{id}"})
+    ClazzExtend getAllStudentsByClassId(@PathVariable(name = "id", required = false) int id ){
         log.debug("request of getAllStudentsByClassId executed with class id:{}", id);
         return clazzMapper.selectWithStudentsById(id);
     }
