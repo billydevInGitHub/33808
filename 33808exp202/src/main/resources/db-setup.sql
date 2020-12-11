@@ -1,3 +1,6 @@
+--The script here is for HSQLDB or In Memeory database
+--For JDBC database, need manually run the following script
+
 DROP TABLE IF EXISTS `class`;
 create table class (
 id int(11) not null auto_increment,
@@ -23,3 +26,17 @@ insert into class (id, name) values (1, 'class1');
 insert into student (name, class_id, age, number) values('student1',1,10,'s1');
 
 insert into student (name, class_id, age, number) values('student2',1,12,'s2');
+
+
+drop table if exists users;
+
+create table  users(
+username varchar(255),
+password varchar(255),
+enabled int(10));
+
+drop table if exists authorities;
+
+create table authorities(
+username varchar(255),
+authority varchar(255));
