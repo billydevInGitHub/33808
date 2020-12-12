@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="这是一个 index 页面">
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+    <link rel="stylesheet" href="assets/css/amazeui.min.css" />
+    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <script src="assets/js/echarts.min.js"></script>
+    <style>
+        .tpl-portlet-components .portlet-title .caption{
+            float: inherit;
+        }
+        .tpl-portlet-components .portlet-title{
+            text-align: center;
+        }
+    </style>
+</head>
+<body data-type="index">
+<body>
+<div class="tpl-portlet-components">
+    <div class="portlet-title">
+        <div class="caption font-green bold">
+            添加公司
+        </div>
+        <div class="tpl-portlet-input tpl-fz-ml">
+            <span id="warning" style="color: red"> </span>
+        </div>
+
+
+    </div>
+    <div class="tpl-block " style="margin-left:18%;">
+
+        <div class="am-g tpl-amazeui-form">
+
+
+            <div class="am-u-sm-12 am-u-md-9"style="text-align:center;">
+                <form class="am-form am-form-horizontal" id="addcompanyinfo"  enctype="multipart/form-data" >
+                    <div class="am-form-group">
+                        <label for="username" class="am-u-sm-2 am-form-label">公司名称 </label>
+                        <div class="am-u-sm-4">
+                            <input type="text" id="CompanyName" name="CompanyName" placeholder="公司名称">
+                        </div>
+                        <label for="realname" class="am-u-sm-2 am-form-label">公司经理</label>
+                        <div class="am-u-sm-4">
+                            <input type="text" name="CompanyManager" placeholder="公司经理">
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+
+                        <label for="password" class="am-u-sm-2 am-form-label">固定电话</label>
+                        <div class="am-u-sm-4">
+                            <input type="number"  pattern="[0-9]*" name="set1" placeholder="固定电话">
+                        </div>
+                        <label for="email" class="am-u-sm-2 am-form-label">经理电话</label>
+                        <div class="am-u-sm-4">
+                            <input type="number" pattern="[0-9]*" name="CompanyPhone" placeholder="经理电话">
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="phone" class="am-u-sm-2 am-form-label">公司地址</label>
+                        <div class="am-u-sm-4" style="float:left" >
+                            <input type="text"name="CompanyAddress" placeholder="公司地址 ">
+                        </div>
+                        <label for="phone" class="am-u-sm-2 am-form-label">公司logo</label>
+                        <div class="am-u-sm-4">
+                            <div class="am-form-group am-form-file">
+                                <div class="tpl-logo" >
+                                    <img id="logo" src="assets/img/logo1.png" width="100%" alt="">
+                                </div>
+                                <button type="button" class="am-btn am-btn-danger am-btn-sm">
+                                    <i class="am-icon-cloud-upload"></i> 添加公司logo</button>
+                                <input id="photo" type="file" name="fileField">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label for="QQ" class="am-u-sm-2 am-form-label">QQ</label>
+                        <div class="am-u-sm-4">
+                            <input type="number" pattern="[0-9]*" name="managerQQ" placeholder="输入你的QQ号码">
+                        </div>
+                        <label for="wechatid" class="am-u-sm-2 am-form-label">微信号</label>
+                        <div class="am-u-sm-4">
+                            <input type="text" name="WhchatID" placeholder="输入你微信号">
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+
+                        <input type="button" class="am-btn am-btn-primary" value="提交" id="idsub"/>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/amazeui.min.js"></script>
+<script src="/assets/js/jquery.form.js"></script>
+<script>
+	//添加公司logo图片时，将选择的图片显示到页面中
+	$(document).ready(function () {
+		$("#photo").change(function () {
+			var fil = this.files;
+			for (var i = 0; i < fil.length; i++) {
+				console.log(fil[i]);
+				console.log('--------------------------');
+				reads(fil[i]);
+			}
+		});
+		$("#idsub").click(function(){
+			/*用ajaxSubmit方法提交表单*/
+			//ajaxSubmit 提交表单 需要jquery.form.js
+		            $("#addcompanyinfo").ajaxSubmit({
+		                type : 'post',
+		                url : "/companysave" , //变量
+		                async:true,
+		                error : function() {//请求失败处理函数
+		                	alert("您添加公司失败");
+		                },
+		                success : function(data) { //请求成功后处理函数。
+		                	  alert("公司添加成功");
+		                }
+		            });
+		})
+	});
+	//读取选取的图片
+	function reads(fil){
+		var reader = new FileReader();
+		reader.readAsDataURL(fil);
+		reader.onload = function(){
+			// document.getElementById("dd").innerHTML += "<img src='"+reader.result+"'>";
+			$("#logo").attr("src",reader.result)
+		}
+	}
+
+
+
+
+	</script>
+</body>
