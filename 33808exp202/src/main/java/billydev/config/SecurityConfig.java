@@ -87,10 +87,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login.html","/login").permitAll()//不需要通过登录验证就可以被访问的资源路径
+                .antMatchers("/login.html", "/login").permitAll()//不需要通过登录验证就可以被访问的资源路径
                 .antMatchers("/actuator/**").hasRole("admin") //前面是资源的访问路径、后面是资源的名称或者叫资源ID
                 .antMatchers("/student/**").hasRole("student")
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessHandler((req, resp, authentication) -> {
+                    resp.setContentType("application/json;charset=utf-8");
+                    PrintWriter out = resp.getWriter();
+                    out.write("注销成功");
+                    out.flush();
+                    out.close();
+                });
 
     }
 }
