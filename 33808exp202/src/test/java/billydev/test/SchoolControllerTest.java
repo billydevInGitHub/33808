@@ -13,6 +13,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.util.Locale;
@@ -56,8 +57,9 @@ class SchoolControllerTest {
         request.locale(Locale.ENGLISH);
         request.accept(MediaType.APPLICATION_JSON);
         request.contentType(MediaType.APPLICATION_JSON);
-        mockMvc.perform(request)
-                .andExpect(status().isCreated()).andDo(print());
+        MvcResult result=mockMvc.perform(request)
+                .andExpect(status().isCreated()).andDo(print()).andReturn();
+        assertEquals(result.getResponse().getContentAsString(),"1");
     }
 
     @Test
