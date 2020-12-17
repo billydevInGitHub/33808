@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -48,19 +49,19 @@ public class SchoolControllerRestTemplateTest {
 
     @WithMockUser(username = "billy", password = "123456", roles = "admin")
     @Test
-    public void find_login_ok() throws Exception {
+    public void getStudentById() throws Exception {
 
-        String expected = "{id:1,name:\"A Guide to the Bodhisattva Way of Life\",author:\"Santideva\",price:15.41}";
+        String expected = "{\"id\":1,\"name\":\"student1\",\"clazzId\":1,\"number\":\"s1\",\"age\":10}";
 
         ResponseEntity<String> response = restTemplate
                 .getForEntity("/student/1", String.class);
 
         printJSON(response);
 
-//        assertEquals(MediaType.APPLICATION_JSON_UTF8, response.getHeaders().getContentType());
+        assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
-//        JSONAssert.assertEquals(expected, response.getBody(), false);
+        JSONAssert.assertEquals(expected, response.getBody(), true);
 
     }
 
