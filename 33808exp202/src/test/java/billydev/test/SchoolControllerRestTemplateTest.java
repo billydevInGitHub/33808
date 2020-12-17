@@ -1,6 +1,7 @@
 package billydev.test;
 
 
+import billydev.entity.Student;
 import billydev.mapper.ClazzMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,7 +48,6 @@ public class SchoolControllerRestTemplateTest {
 //        when(mockRepository.findById(1L)).thenReturn(Optional.of(book));
     }
 
-    @WithMockUser(username = "billy", password = "123456", roles = "admin")
     @Test
     public void getStudentById() throws Exception {
 
@@ -66,21 +66,25 @@ public class SchoolControllerRestTemplateTest {
     }
 
     @Test
-    public void find_nologin_401() throws Exception {
-
-        String expected = "{\"status\":401,\"error\":\"Unauthorized\",\"message\":\"Unauthorized\",\"path\":\"/books/1\"}";
+    public void updateStudent() throws Exception {
+        Student student = new Student();
+        student.setId(1);
+        student.setName("updated student");
+        student.setClazzId(1);
+        student.setAge(9);
+        student.setNumber("updated student number");
+        restTemplate.put("/student/1", student);
+        String expected= "{\"id\":1,\"name\":\"updated student\",\"clazzId\":1,\"number\":\"updated student number\",\"age\":9}";
 
         ResponseEntity<String> response = restTemplate
-                .getForEntity("/books/1", String.class);
+                .getForEntity("/student/1", String.class);
 
         printJSON(response);
 
-//        assertEquals(MediaType.APPLICATION_JSON_UTF8, response.getHeaders().getContentType());
-//        assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
-//        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
 
         JSONAssert.assertEquals(expected, response.getBody(), false);
-
     }
 
     private static void printJSON(Object object) {

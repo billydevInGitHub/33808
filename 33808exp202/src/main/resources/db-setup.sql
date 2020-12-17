@@ -17,7 +17,7 @@ id int(11) not null auto_increment,
 name varchar(50) not null ,
 class_id int(11) not null ,
 age int(11) not null ,
-number varchar(6) not null ,
+number varchar(50) not null ,
 primary key (id)
 );
 
