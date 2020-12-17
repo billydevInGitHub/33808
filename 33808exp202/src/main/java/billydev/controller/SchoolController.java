@@ -9,8 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +21,7 @@ import java.util.Optional;
  */
 @Slf4j
 @RestController
+@Validated
 public class SchoolController {
 
     @Autowired
@@ -40,7 +43,7 @@ public class SchoolController {
     }
 
     @PostMapping("/student")
-    ResponseEntity<Integer> insertStudent(@RequestBody Student student) {
+    ResponseEntity<Integer> insertStudent(@Valid @RequestBody Student student) {
         int rowNumInserted=studentService.insertStudent(student);
         log.info("{} row(s) inserted for student entity", rowNumInserted);
         return new ResponseEntity(rowNumInserted, HttpStatus.CREATED);
@@ -52,7 +55,7 @@ public class SchoolController {
     }
 
     @PutMapping("/student/{id}")
-    int updateStudent(@RequestBody Student student, @PathVariable int id) {
+    int updateStudent(@Valid @RequestBody Student student, @PathVariable int id) {
         // usually student only has fields other than id
         if(id!=student.getId().intValue()){
             student.setId(id);

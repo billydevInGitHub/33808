@@ -1,10 +1,13 @@
 package billydev.entity;
 
+import billydev.validator.Age;
+
 public class Student {
     private Integer id;
     private Integer clazzId;
     private String name;
     private String number;
+    @Age
     private Integer age;
 
     public Integer getId() {

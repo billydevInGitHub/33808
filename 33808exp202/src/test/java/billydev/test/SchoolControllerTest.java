@@ -53,7 +53,7 @@ class SchoolControllerTest {
     @Test
     void insertStudent() throws Exception {
         MockHttpServletRequestBuilder request = post("/student");
-        request.content("{\"clazzId\":1,\"name\":\"name from test\",\"age\":12,\"number\":\"123456\"}");
+        request.content("{\"clazzId\":1,\"name\":\"name from test\",\"age\":29,\"number\":\"123456\"}");
         request.locale(Locale.ENGLISH);
         request.accept(MediaType.APPLICATION_JSON);
         request.contentType(MediaType.APPLICATION_JSON);

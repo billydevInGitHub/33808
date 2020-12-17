@@ -71,10 +71,10 @@ public class SchoolControllerRestTemplateTest {
         student.setId(1);
         student.setName("updated student");
         student.setClazzId(1);
-        student.setAge(9);
+        student.setAge(29);
         student.setNumber("updated student number");
         restTemplate.put("/student/1", student);
-        String expected= "{\"id\":1,\"name\":\"updated student\",\"clazzId\":1,\"number\":\"updated student number\",\"age\":9}";
+        String expected= "{\"id\":1,\"name\":\"updated student\",\"clazzId\":1,\"number\":\"updated student number\",\"age\":29}";
 
         ResponseEntity<String> response = restTemplate
                 .getForEntity("/student/1", String.class);
