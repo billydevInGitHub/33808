@@ -6,7 +6,6 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,25 +22,25 @@ import javax.sql.DataSource;
  * @author Billy
  */
 @Configuration
-@MapperScan(value = { "billydev.mapper" }, sqlSessionFactoryRef = "sqlSessionFactory")
-@Profile("Dev")
-public class DataSourceDevConfiguration {
+@MapperScan(value = { "billydev.mapper" }, sqlSessionFactoryRef = "sqlSessionFactoryTest")
+@Profile("Test")
+public class DataSourceTestConfiguration {
 
-    @Bean(name = "dataSourceDev")
+    @Bean(name = "dataSourceTest")
     @ConfigurationProperties(prefix = "spring.datasource.mem")
     public DataSource dataSource() {
         return new BasicDataSource();
     }
 
-    @Bean(name = "transactionManagerDev")
+    @Bean(name = "transactionManagerTest")
     public DataSourceTransactionManager dbOneTransactionManager(
-            @Qualifier("dataSourceDev") DataSource dataSource) {
+            @Qualifier("dataSourceTest") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    @Bean(name = "sqlSessionFactoryDev")
-    @ConditionalOnMissingBean(name = "sqlSessionFactoryDev")
-    public SqlSessionFactory dbOneSqlSessionFactory(@Qualifier("dataSourceDev") DataSource dataSource)
+    @Bean(name = "sqlSessionFactoryTest")
+    @ConditionalOnMissingBean(name = "sqlSessionFactoryTest")
+    public SqlSessionFactory dbOneSqlSessionFactory(@Qualifier("dataSourceTest") DataSource dataSource)
             throws Exception {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
