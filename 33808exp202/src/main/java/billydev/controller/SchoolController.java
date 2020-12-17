@@ -7,6 +7,8 @@ import billydev.mapper.StudentMapper;
 import billydev.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,10 +40,10 @@ public class SchoolController {
     }
 
     @PostMapping("/student")
-    int insertStudent(@RequestBody Student student) {
+    ResponseEntity<Integer> insertStudent(@RequestBody Student student) {
         int rowNumInserted=studentService.insertStudent(student);
         log.info("{} row(s) inserted for student entity", rowNumInserted);
-        return rowNumInserted;
+        return new ResponseEntity(rowNumInserted, HttpStatus.CREATED);
     }
 
     @GetMapping("/student/{id}")
