@@ -51,10 +51,10 @@ public class SchoolControllerRestTemplateTest {
     @Test
     public void getStudentById() throws Exception {
 
-        String expected = "{\"id\":1,\"name\":\"student1\",\"clazzId\":1,\"number\":\"s1\",\"age\":10}";
+        String expected = "{\"id\":2,\"name\":\"student2\",\"clazzId\":1,\"number\":\"s2\",\"age\":12}";
 
         ResponseEntity<String> response = restTemplate
-                .getForEntity("/student/1", String.class);
+                .getForEntity("/student/2", String.class);
 
         printJSON(response);
 
@@ -71,10 +71,10 @@ public class SchoolControllerRestTemplateTest {
         student.setId(1);
         student.setName("updated student");
         student.setClazzId(1);
-        student.setAge(29);
+        student.setAge(10);
         student.setNumber("updated student number");
         restTemplate.put("/student/1", student);
-        String expected= "{\"id\":1,\"name\":\"updated student\",\"clazzId\":1,\"number\":\"updated student number\",\"age\":29}";
+        String expected= "{\"id\":1,\"name\":\"updated student\",\"clazzId\":1,\"number\":\"updated student number\",\"age\":10}";
 
         ResponseEntity<String> response = restTemplate
                 .getForEntity("/student/1", String.class);

@@ -49,6 +49,13 @@ public class SchoolController {
         return new ResponseEntity(rowNumInserted, HttpStatus.CREATED);
     }
 
+    @PostMapping("/students")
+    ResponseEntity<Integer> insertStudents(@Valid @RequestBody List<Student> students) {
+        int rowNumInserted=studentService.insertStudents(students);
+        log.info("{} row(s) inserted for student entity", rowNumInserted);
+        return new ResponseEntity(rowNumInserted, HttpStatus.CREATED);
+    }
+
     @GetMapping("/student/{id}")
     Student getStudentById(@PathVariable int id) {
         return studentService.getStudentById(id).orElseThrow(()->new RuntimeException("Student Not found Exception"));

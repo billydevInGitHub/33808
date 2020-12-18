@@ -45,7 +45,7 @@ class SchoolControllerTest {
     @Test
     void getAllStudentsByClassId() throws Exception {
         mockMvc
-                .perform(get("/student/1"))
+                .perform(get("/class/1"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -53,13 +53,25 @@ class SchoolControllerTest {
     @Test
     void insertStudent() throws Exception {
         MockHttpServletRequestBuilder request = post("/student");
-        request.content("{\"clazzId\":1,\"name\":\"name from test\",\"age\":29,\"number\":\"123456\"}");
+        request.content("{\"clazzId\":1,\"name\":\"name from test\",\"age\":10,\"number\":\"123456\"}");
         request.locale(Locale.ENGLISH);
         request.accept(MediaType.APPLICATION_JSON);
         request.contentType(MediaType.APPLICATION_JSON);
         MvcResult result=mockMvc.perform(request)
                 .andExpect(status().isCreated()).andDo(print()).andReturn();
         assertEquals(result.getResponse().getContentAsString(),"1");
+    }
+
+    @Test
+    void insertStudents() throws Exception {
+        MockHttpServletRequestBuilder request = post("/students");
+        request.content("[{\"clazzId\":1,\"name\":\"name from test1\",\"age\":10,\"number\":\"123456\"},{\"clazzId\":1,\"name\":\"name from test2\",\"age\":30,\"number\":\"123456\"}]");
+        request.locale(Locale.ENGLISH);
+        request.accept(MediaType.APPLICATION_JSON);
+        request.contentType(MediaType.APPLICATION_JSON);
+        MvcResult result=mockMvc.perform(request)
+                .andExpect(status().isCreated()).andDo(print()).andReturn();
+        assertEquals(result.getResponse().getContentAsString(),"2");
     }
 
     @Test

@@ -4,6 +4,7 @@ import billydev.entity.Student;
 import billydev.mapper.StudentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +37,14 @@ public class StudentService {
 
     public int updateStudent(Student student) {
         return studentMapper.updateStudent(student);
+    }
+
+    @Transactional
+    public int insertStudents(List<Student> students) {
+        for (Student student : students) {
+            studentMapper.insertStudent(student);
+        }
+        return students.size();
     }
 
 }
