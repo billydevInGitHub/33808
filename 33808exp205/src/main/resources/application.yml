@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: travel-spring-cloud-gateway
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://192.168.1.100:8090/auth/realms/spring-cloud-gateway-realm
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: spring-cloud-gateway-client
+            client-secret: 3a637c9d-f28f-4c3e-8ed9-4bdfa72d76ac
+
+logging:
+  level:
+    org:
+      springframework:
+        cloud.gateway: TRACE
+        http.server.reactive: TRACE
+        web.reactive: TRACE
+
+debug: true
