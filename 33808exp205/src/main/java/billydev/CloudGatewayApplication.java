@@ -43,12 +43,12 @@ public class CloudGatewayApplication {
 		model.put("clientName", authorizedClient.getClientRegistration().getClientName());
 		model.put("userName", oidcUser.getName());
 		model.put("userAttributes", oidcUser.getAttributes());
-//		/*  uncomment the following lines when need break a reactive chain
+		/*  uncomment the following lines when need break a reactive chain
 		HashMap hashMap = new HashMap();
 		hashMap.put("Error", Mono.error(new RuntimeException("Mimic error")));
 		return hashMap;
-// 		*/
-//		return model;
+ 		*/
+		return model;
 	}
 
 }

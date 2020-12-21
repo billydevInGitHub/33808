@@ -15,6 +15,13 @@ spring:
           keycloak:
             client-id: spring-cloud-gateway-client
             client-secret: 3a637c9d-f28f-4c3e-8ed9-4bdfa72d76ac
+  cloud:
+    gateway:
+      routes:
+        - id: 33808exp147
+          uri: http://localhost:8090/books
+          predicates:
+            - Path=/books/**
 
 logging:
   level:
