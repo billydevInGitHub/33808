@@ -27,6 +27,11 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-tools</artifactId>
+            <version>3.4.0</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

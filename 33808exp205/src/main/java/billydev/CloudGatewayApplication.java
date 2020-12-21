@@ -9,6 +9,8 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import reactor.core.publisher.Mono;
+import reactor.tools.agent.ReactorDebugAgent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +20,7 @@ import java.util.Map;
 public class CloudGatewayApplication {
 
 	public static void main(String[] args) {
+		ReactorDebugAgent.init();
 		SpringApplication.run(CloudGatewayApplication.class, args);
 	}
 
@@ -40,7 +43,12 @@ public class CloudGatewayApplication {
 		model.put("clientName", authorizedClient.getClientRegistration().getClientName());
 		model.put("userName", oidcUser.getName());
 		model.put("userAttributes", oidcUser.getAttributes());
-		return model;
+//		/*  uncomment the following lines when need break a reactive chain
+		HashMap hashMap = new HashMap();
+		hashMap.put("Error", Mono.error(new RuntimeException("Mimic error")));
+		return hashMap;
+// 		*/
+//		return model;
 	}
 
 }
