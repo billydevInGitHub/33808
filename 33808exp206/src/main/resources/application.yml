@@ -4,10 +4,16 @@ server:
     context-path: /hotels/
 spring:
   application:
-    name: hotels-service
+    name: hotels-service-33808exp206
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://192.168.1.100:8090/auth/realms/spring-cloud-gateway-realm
+  cloud:
+   consul:
+      host: localhost
+      discovery:
+         hostname: localhost
+         register-health-check: false
 debug: true

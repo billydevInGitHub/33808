@@ -18,7 +18,7 @@ public class HotelsApplication {
 	@GetMapping("/test")
 	@ResponseBody
 	public String getIndex() {
-		return "this is from 33808exp205";
+		return "this is from 33808exp206";
 	}
 
 	@GetMapping("/whoami")

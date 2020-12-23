@@ -5,7 +5,12 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -22,12 +27,22 @@ public class CallerController {
 	RestTemplate template;
 
 	@GetMapping
-	public String call() {
+	public String call(@RequestHeader(value="Accept") String acceptHeader,
+					   @RequestHeader(value="Authorization") String authorizationHeader) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", acceptHeader);
+		headers.set("Authorization", authorizationHeader);
 		String url = "http://hotels-service-33808exp206//hotels//test";
-		String callmeResponse = template.getForObject(url, String.class);
-		LOGGER.info("Response: {}", callmeResponse);
+
+		HttpEntity entity = new HttpEntity(headers);
+
+		ResponseEntity<String> response = template.exchange(
+				url, HttpMethod.GET, entity, String.class);
+
+
+		LOGGER.info("Response: {}", response);
 		return "I'm Caller running on port " + environment.getProperty("local.server.port")
-				+ " calling-> " + callmeResponse;
+				+ " calling-> " + response;
 	}
 
 	@GetMapping("/slow")
