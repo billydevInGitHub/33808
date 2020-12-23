@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: b33808exp207
+  cloud:
+    consul:
+      host: localhost
+      discovery:
+        hostname: 127.0.0.1
+        register-health-check: false
+server.port: 8088
