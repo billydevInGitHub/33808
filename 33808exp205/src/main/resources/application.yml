@@ -24,7 +24,11 @@ spring:
           uri: http://localhost:8088/caller
           predicates:
             - Path=/caller/**
-
+    consul:
+      host: localhost
+      discovery:
+        hostname: localhost
+        register-health-check: false
 logging:
   level:
     org:
