@@ -4,6 +4,7 @@ import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Random;
 
@@ -26,7 +27,9 @@ public class MdcLogEnhancerFilter implements Filter {
 //        MDC.put("userId", "www.SpringBootDev.com");
 //        MDC.put("userId", String.valueOf(servletRequest.hashCode()));
 //        MDC.put("userId", String.valueOf(new Random().nextInt()));
-        MDC.put("userId", String.valueOf(servletRequest.toString()));
+//        MDC.put("userId", String.valueOf(servletRequest.toString()));
+
+        MDC.put("userId", "user principal:"+ ((HttpServletRequest)servletRequest).getUserPrincipal());
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
