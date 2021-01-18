@@ -8,6 +8,7 @@
 <body>
     <!-- tag::logout[] -->
     <div>
+        <img src="/fish.jpg">
         Hello, <span id="managername" th:text="${#authentication.name}">user</span>.
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Log Out"/>
