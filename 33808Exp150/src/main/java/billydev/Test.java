@@ -18,7 +18,8 @@ public class Test {
         Flux.fromArray(new Integer[] {1, 2, 3}).subscribe(System.out::println);
         Flux.empty().subscribe(System.out::println);
         Flux.range(1, 10).subscribe(System.out::println);
-        //cant not under the following line
+        System.out.println("\r\n==Flux.interval: ");
+        //cant not understand  the following line
         Flux.interval(Duration.of(10, ChronoUnit.SECONDS)).subscribe(System.out::println);
         System.out.println("\r\n==using generate method: ");
         Flux.generate(sink -> {
@@ -128,8 +129,8 @@ public class Test {
                 .concatWith(Mono.error(new IllegalStateException()))
                 .onErrorReturn(0)
                 .subscribe(System.out::println);
-        Flux.just(1, 2)
-                .concatWith(Mono.error(new IllegalArgumentException()))
+        Flux.just(1, 2).log()
+                .concatWith(Mono.error(new IllegalArgumentException())).log()
                 .onErrorResume(e -> {
                     if (e instanceof IllegalStateException) {
                         return Mono.just(0);
@@ -147,6 +148,25 @@ public class Test {
 //                .subscribe(System.out::println);
 
         System.out.println("\r\n==using thread ");
+        Flux.create(sink -> {
+            sink.next(Thread.currentThread().getName());
+            sink.complete();
+        })
+                .publishOn(Schedulers.single())
+                .map(x -> String.format("[%s] %s", Thread.currentThread().getName(), x))
+                .publishOn(Schedulers.elastic())
+                .map(x -> String.format("[%s] %s", Thread.currentThread().getName(), x))
+                .subscribeOn(Schedulers.parallel())
+                .toStream()
+                .forEach(System.out::println);
+
+        // copy from exp134
+        Flux.generate(sink -> {
+            sink.next("Echo");
+            sink.complete();
+        }).subscribe(System.out::println);
+
+
         Flux.create(sink -> {
             sink.next(Thread.currentThread().getName());
             sink.complete();
