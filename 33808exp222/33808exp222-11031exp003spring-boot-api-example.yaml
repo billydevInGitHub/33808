@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: b33808exp222-wrap11031exp003-deployment
+  labels:
+    app: b33808exp222-wrap11031exp003
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: b33808exp222-wrap11031exp003
+  template:
+    metadata:
+      labels:
+        app: b33808exp222-wrap11031exp003
+    spec:
+      containers:
+      - name: b33808exp222-wrap11031exp003 
+        image: billydev/spring-boot-api-example:0.1.0-SNAPSHOT
+        ports:
+        - containerPort: 8080 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: b33808exp222-wrap11031exp003service
+spec:
+  selector:
+    app: b33808exp222-wrap11031exp003
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080 
+      targetPort: 8080
+      nodePort: 30001 
