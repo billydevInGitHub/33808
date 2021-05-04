@@ -1,12 +1,9 @@
-package com.javainuse;
-
-import billydev.SpringToolConfiguration;
+package com.spring.boot.app.util;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 public class SpringTool {
-
     private static int count=0;
     private static StringBuilder sb = new StringBuilder();
     static class Inner implements BiConsumer<String,Object> {
@@ -28,7 +25,6 @@ public class SpringTool {
         beanDefinitionMap.forEach(new Inner());
         String returnString=sb.toString();
         sb=new StringBuilder();
-        SpringToolConfiguration.test();
         return returnString;
     }
 
