@@ -1,6 +1,4 @@
-package billydev;
-
-import lombok.SneakyThrows;
+package billydev.service.bean.jobAndControlThreads;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,20 +10,17 @@ public class ClientJobThread extends Thread {
     private String script;
     private String parameters;
     private String controlMsg;
-    private Msg returnMsg;
+    private InfoExchange infoExchange;
 
 
     public ClientJobThread(String inputName,
                            String script,
                            String parameters,
-                           String controlMsg,
-                           int timeInSeconds,
-                           Msg returnMsg) {
+                           InfoExchange infoExchange) {
         this.threadGivenName = inputName;
         this.script = script;
         this.parameters = parameters;
-        this.controlMsg = controlMsg;
-        this.returnMsg=returnMsg;
+        this.infoExchange = infoExchange;
     }
 
     public void run() {
@@ -57,26 +52,8 @@ public class ClientJobThread extends Thread {
             //todo: once the job working, we can remove the following hard coded job script details
             //final Process p = Runtime.getRuntime().exec("/home/billy/billydev/tempdev/181123-1-30800Exp003_ControlLongRunningProcess/endlessloop.sh");
 
-            class ClientJobControlThread extends Thread {
-                public void run() {
-                    while (true) {
-                        try {
-                            if (controlMsg.equals("STOP")) {
-                                p.destroy();//todo: how to get the result of destroy .
-                                break; //should break the while loop
-                            } else {
-                                Thread.currentThread().sleep(200);
-                            }
-                        } catch (InterruptedException e) {
-                            p.destroy();
-                            break;
-                        }
-                    }
-                }
-            }
+            infoExchange.setP(p);
 
-            Thread jobControlThread = new ClientJobControlThread();
-            jobControlThread.start();
 
             BufferedReader reader =
                     new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -88,20 +65,14 @@ public class ClientJobThread extends Thread {
              * todo: check some jobs without any output in spool
              */
             line = reader.readLine();
-                returnMsg.setContent(line);
-                System.out.println(returnMsg.getContent());
+                infoExchange.setContent(line);
+                System.out.println(infoExchange.getContent());
 
-
-            //when job completed normally,stop the jobControlThread as well
-            jobControlThread.interrupt();
-            System.out.println("ClientJobThread:  JobControlThread is interrupted");
-
-
-            try {
-                Thread.currentThread().sleep(2 * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.currentThread().sleep(2 * 1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
 
         } catch (IOException e) {
             e.printStackTrace();
