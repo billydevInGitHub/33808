@@ -1,7 +1,7 @@
 package com.example.uploadingfiles;
 
+import com.example.uploadingfiles.storage.StorageService;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,7 +20,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 
-import com.example.uploadingfiles.storage.StorageService;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FileUploadIntegrationTests {
@@ -42,6 +41,7 @@ public class FileUploadIntegrationTests {
 		map.add("file", resource);
 		ResponseEntity<String> response = this.restTemplate.postForEntity("/", map,
 				String.class);
+
 
 		assertThat(response.getStatusCode()).isEqualByComparingTo(HttpStatus.FOUND);
 		assertThat(response.getHeaders().getLocation().toString())

@@ -19,6 +19,7 @@ public class SpringBootProfileDemo {
     }
     @PostConstruct
     public void init(){
+        System.out.println("tttt");
         dataSourceConfig.setup();
     }
 }

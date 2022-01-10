@@ -43,6 +43,8 @@ logging:
   level:
     org:
       springframework:
-        cloud.gateway: DEBUG
-        http.server.reactive: DEBUG
-        web.reactive: DEBUG
+        cloud.gateway: TRACE
+        http.server.reactive: TRACE
+        web.reactive: TRACE
+
+debug: true

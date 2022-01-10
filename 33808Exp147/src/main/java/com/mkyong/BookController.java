@@ -51,7 +51,7 @@ public class BookController {
                     x.setPrice(newBook.getPrice());
                     return repository.save(x);
                 })
-                .orElseGet(() -> {
+                .orElseGet(()  -> {
                     newBook.setId(id);
                     return repository.save(newBook);
                 });

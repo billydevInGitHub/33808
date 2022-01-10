@@ -29,6 +29,7 @@ public class FileSystemStorageService implements StorageService {
 
 	@Override
 	public void store(MultipartFile file) {
+		//file.getOriginalFilename() got: file without any prefixed foler names
 		String filename = StringUtils.cleanPath(file.getOriginalFilename());
 		try {
 			if (file.isEmpty()) {

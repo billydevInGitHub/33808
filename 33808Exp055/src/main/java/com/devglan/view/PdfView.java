@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 
 import com.devglan.model.UserDetails;
@@ -14,6 +15,7 @@ import com.lowagie.text.Element;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+@Component("reportView")
 public class PdfView extends AbstractPdfView {
 
 	@Override

@@ -35,6 +35,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.managerPassword("admin")
 				.and()
 				.userDnPatterns("uid={0}");
+
+		auth
+				.ldapAuthentication()
+				.userDnPatterns("uid={0},ou=people")
+				.groupSearchBase("ou=groups")
+				.contextSource()
+				.url("ldap://localhost:8389/dc=springframework,dc=org")
+				.and()
+				.passwordCompare()
+				.passwordEncoder(new BCryptPasswordEncoder())
+				.passwordAttribute("userPassword");
 	}
 
 }

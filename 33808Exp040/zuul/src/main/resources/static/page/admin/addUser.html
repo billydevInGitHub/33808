@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="stylesheet" href="/js/layui/css/layui.css" media="all">
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>用户添加页面</legend>
+</fieldset>
+
+
+<form class="layui-form" action="" lay-filter="example">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+                <input id="username" type="text" name="title" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-inline">
+                <input id="password" type="password" name="title" autocomplete="off" placeholder="请输入密码" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label">确认密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="title" autocomplete="off" placeholder="请输入确认密码" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">角色</label>
+            <div class="layui-input-block">
+                <select id="role" name="interest" lay-filter="aihao">
+                    <option value=""></option>
+                    <option value="0">写作</option>
+                    <option value="1" selected="">阅读</option>
+                    <option value="2">游戏</option>
+                    <option value="3">音乐</option>
+                    <option value="4">旅行</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-input-block">
+            <button id="addBtn" type="button" class="layui-btn">添加用户</button>
+            <button id="closeBtn" type="button" class="layui-btn layui-btn-normal">取消</button>
+        </div>
+       </div>
+</form>
+
+<script src="/js/jquery-1.7.2.min.js"></script>
+<script src="/js/layui/layui.all.js" charset="utf-8"></script>
+<script>
+
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        //但是，如果你的HTML是动态生成的，自动渲染就会失效
+        //因此你需要在相应的地方，执行下述方法来手动渲染，跟这类似的还有 element.init();
+        $.ajax({
+            url:"/api/admin/user/getRoles",
+            type:"post",
+            dataType:"json",
+            success:function (data) {
+                var htmls = '';
+                htmls += '<option value = ""></option>'
+                $.each(data.data,function (index,val) {
+                    console.log(val.id,val.role_desc)
+                    htmls += '<option value = "' + val.id + '">' + val.roleDesc + '</option>'
+                    $("#role").html(htmls);
+                })
+                form.render('select');
+            }
+        })
+
+        form.render();
+
+        $("#addBtn").click(function () {
+            console.log();
+            console.log($("#role option:selected").val());
+            console.log($("#role option:selected").text());
+
+            $.ajax({
+                url:"/api/admin/user/addUser",
+                data:{username:$("#username").val(),password:$("#password").val(),
+                    rid:$("#role").val()
+                },
+                dataType:"json",
+                success:function (data) {
+                    if(data.code==200){
+                        layer.msg("添加成功")
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
+            })
+        });
+    });
+</script>
+</body>
+
+
+</html>

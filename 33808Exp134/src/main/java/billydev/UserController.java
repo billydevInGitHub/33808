@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
 
 import java.awt.*;
@@ -15,8 +16,10 @@ public class UserController {
 
     @GetMapping("/user")
     public Flux<User> listUser() {
-        Flux<User> user = userRepository.getAllUsers();
+
+        Flux<User> user = userRepository.getAllUsers().log();
         return user;
+//        return Flux.error(new RuntimeException("this is a test"));
     }
 
     @GetMapping("/user/{id}")

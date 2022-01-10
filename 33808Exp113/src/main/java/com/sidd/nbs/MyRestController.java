@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.Timer;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -17,11 +18,11 @@ import java.util.concurrent.TimeUnit;
 @RestController
 public class MyRestController {
 
-    Timer timer;
+//    Timer timer;
     ScheduledExecutorService ses;
     public MyRestController()
     {
-        timer = new Timer();
+//        timer = new Timer();
         ses = new ScheduledThreadPoolExecutor(10);
     }
     @RequestMapping("/process-blocking")

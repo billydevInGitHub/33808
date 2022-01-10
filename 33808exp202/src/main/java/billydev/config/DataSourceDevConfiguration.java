@@ -23,7 +23,7 @@ import javax.sql.DataSource;
  * @author Billy
  */
 @Configuration
-@MapperScan(value = { "billydev.mapper" }, sqlSessionFactoryRef = "sqlSessionFactory")
+@MapperScan(value = { "billydev.mapper" }, sqlSessionFactoryRef = "sqlSessionFactoryDev")
 @Profile("Dev")
 public class DataSourceDevConfiguration {
 

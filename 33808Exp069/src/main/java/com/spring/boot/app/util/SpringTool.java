@@ -23,7 +23,9 @@ public class SpringTool {
     public static String printBeanDefinitionMap(ConcurrentHashMap beanDefinitionMap){
 // beanDefinitionMap.forEach((key, value) -> {count++; sb.append(count++ + " "+key.toString() + " ~~~~~~~~~~~~~~~~ \r\n" + value.toString()+"\r\n\r\n")});
         beanDefinitionMap.forEach(new Inner());
-        return sb.toString();
+        String returnString=sb.toString();
+        sb=new StringBuilder();
+        return returnString;
     }
 
 }

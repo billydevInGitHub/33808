@@ -1,13 +1,16 @@
 package com.devglan.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 import com.devglan.view.PdfView;
@@ -18,6 +21,16 @@ import com.devglan.view.XlsxView;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.devglan")
 public class WebConfig extends WebMvcConfigurerAdapter {
+
+
+
+
+
+//	@Bean
+//	public ViewResolver beanNameViewResolver() {
+//		BeanNameViewResolver resolver = new BeanNameViewResolver();
+//		return resolver;
+//	}
 	
 	@Override
 	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
@@ -28,7 +41,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	 @Override
 	 public void configureViewResolvers(ViewResolverRegistry registry) {
-		registry.jsp("/WEB-INF/jsp/", ".jsp").viewClass(JstlView.class);
+//		registry.jsp("/WEB-INF/jsp/", ".jsp").viewClass(JstlView.class);
 		registry.enableContentNegotiation(
 				 new XlsView(),
 				 new XlsxView(),
@@ -39,6 +52,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/js/**").addResourceLocations("/ui/js/");
 		registry.addResourceHandler("/css/**").addResourceLocations("/ui/css/");
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 
 }

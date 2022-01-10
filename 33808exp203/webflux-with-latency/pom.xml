@@ -9,12 +9,61 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>org.example</groupId>
+    <version>1.0-SNAPSHOT</version>
     <artifactId>webflux-with-latency</artifactId>
+    <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <!--todo: need to figure out why the follow manifest not working to make executable jar-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-jar-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <archive>-->
+<!--                        <manifestEntries>-->
+<!--                            <addClasspath>true</addClasspath>-->
+<!--                            <mainClass>com.getset.webfluxwithlatency.WebfluxWithLatencyApplication</mainClass>-->
+<!--                        </manifestEntries>-->
+<!--                    </archive>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+            <!-- Maven Assembly Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <!-- get all project dependencies -->
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <!-- MainClass in mainfest make a executable jar -->
+                    <archive>
+                        <manifest>
+                            <mainClass>com.getset.webfluxwithlatency.WebfluxWithLatencyApplication</mainClass>
+                        </manifest>
+                    </archive>
 
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <!-- bind to the packaging phase -->
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
 </project>

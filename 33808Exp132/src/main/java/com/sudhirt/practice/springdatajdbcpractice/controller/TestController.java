@@ -1,5 +1,6 @@
 package com.sudhirt.practice.springdatajdbcpractice.controller;
 
+import com.sudhirt.practice.springdatajdbcpractice.entity.Author;
 import com.sudhirt.practice.springdatajdbcpractice.entity.Book;
 import com.sudhirt.practice.springdatajdbcpractice.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class TestController {
 
     @RequestMapping("/getBooks")
     List<Book> getBooks(){
+        Author author = Author.builder().firstName(());
+
         Iterable<Book> itera=bookRepository.findAll();
         List<Book> returnObject = new ArrayList<>();
         itera.forEach((e)->returnObject.add(e));

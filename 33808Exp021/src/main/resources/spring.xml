@@ -13,6 +13,6 @@
 <!--    </bean>-->
 
     <bean id="service" class="com.luban.dao.IndexService">
-<!--        <constructor-arg ref="dao" ></constructor-arg>-->
+<!--       <constructor-arg ref="dao" ></constructor-arg>-->
     </bean>
 </beans>

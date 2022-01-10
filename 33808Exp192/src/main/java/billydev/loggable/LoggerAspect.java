@@ -25,8 +25,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @Slf4j
 public class LoggerAspect {
 
-
-    @Around("execution(* org.springframework.boot.actuate.metrics.web.reactive.server.MetricsWebFilter.filter(..))")
+    @Around("@annotation(Loggable)")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
 
         long start = System.currentTimeMillis();

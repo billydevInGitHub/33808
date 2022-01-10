@@ -20,6 +20,7 @@ public class HelloController {
         List<Integer> data = Arrays.asList(1, 2, 3, 4, 5);
 
         logger.debug("Hello from Logback {}", data);
+        logger.error("Test error {}", data);
 
         model.addAttribute("num", data);
 

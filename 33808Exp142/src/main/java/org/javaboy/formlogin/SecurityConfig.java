@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/js/**", "/css/**", "/images/**");
+        web.ignoring().antMatchers("/js/**", "/css/**", "/images/**","/login.html");
     }
 
     @Override
@@ -111,16 +111,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     out.flush();
                     out.close();
                 })
-                .permitAll()
-                .and()
-                .csrf().disable().exceptionHandling()
-                .authenticationEntryPoint((req, resp, authException) -> {
-                            resp.setContentType("application/json;charset=utf-8");
-                            PrintWriter out = resp.getWriter();
-                            out.write("尚未登录，请先登录");
-                            out.flush();
-                            out.close();
-                        }
-                );
+                .permitAll();
+//                .and()
+//                .csrf().disable().exceptionHandling()
+//                .authenticationEntryPoint((req, resp, authException) -> {
+//                            resp.setContentType("application/json;charset=utf-8");
+//                            PrintWriter out = resp.getWriter();
+//                            out.write("尚未登录，请先登录");
+//                            out.flush();
+//                            out.close();
+//                        }
+//                );
     }
 }

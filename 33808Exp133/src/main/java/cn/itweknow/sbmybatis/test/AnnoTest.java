@@ -65,7 +65,7 @@ public class AnnoTest {
     @Test
     public void testSelectPage() {
         //获取第1页，10条内容，默认查询总数count
-        PageHelper.startPage(1, 10);
+        PageHelper.startPage(1, 20);
         //紧跟着的第一个select方法会被分页
         List<Student> list = studentMapper.findAll();
         PageInfo page = new PageInfo(list);

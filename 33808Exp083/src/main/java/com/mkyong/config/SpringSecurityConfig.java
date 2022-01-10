@@ -14,30 +14,32 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.inMemoryAuthentication()
-                .withUser("user").password("{noop}password").roles("USER")
+                .withUser("user")
+                .password("{noop}password")
+                .roles("USER")
                 .and()
                 .withUser("admin").password("{noop}password").roles("USER", "ADMIN");
 
     }
 
     // Secure the endpoins with HTTP Basic authentication
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-        http
-                //HTTP Basic authentication
-                .httpBasic()
-                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/books/**").hasRole("USER")
-                .antMatchers(HttpMethod.POST, "/books").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/books/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PATCH, "/books/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/books/**").hasRole("ADMIN")
-                .and()
-                .csrf().disable()
-                .formLogin().disable();
-    }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//
+//        http
+//                //HTTP Basic authentication
+//                .httpBasic()
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers(HttpMethod.GET, "/books/**").hasRole("USER")
+//                .antMatchers(HttpMethod.POST, "/books").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.PUT, "/books/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.PATCH, "/books/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.DELETE, "/books/**").hasRole("ADMIN")
+//                .and()
+//                .csrf().disable()
+//                .formLogin().disable();
+//    }
 
     /*@Bean
     public UserDetailsService userDetailsService() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.itweknow.sbmybatis.mapper.ClazzMapper">
-<resultMap id="BaseResultMap" type="cn.itweknow.sbmybatis.model.dao.Clazz">
+<resultMap   id="BaseResultMap" type="cn.itweknow.sbmybatis.model.dao.Clazz" >
   <id column="id" jdbcType="INTEGER" property="id" />
   <result column="name" jdbcType="VARCHAR" property="name" />
 </resultMap>
@@ -9,7 +9,7 @@
 <resultMap id="ClazzExtendMap" type="cn.itweknow.sbmybatis.model.dao.ClazzExtend">
   <id column="id" jdbcType="INTEGER" property="id" />
   <result column="name" jdbcType="VARCHAR" property="name" />
-  <collection property="students" ofType="cn.itweknow.sbmybatis.model.dao.Student">
+  <collection property="students" ofType="cn.itweknow.sbmybatis.model.dao.Student" >
     <result column="sId" property="id"/>
     <result column="sName" property="name"/>
     <result column="sAge" property="age"/>

@@ -20,7 +20,7 @@ spring:
       username: sa
       password:
   profiles:
-    active: Test
+    active: Dev
   pagehelper:
   helperDialect: mysql
   reasonable: true

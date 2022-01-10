@@ -17,7 +17,14 @@
 		select
 		<include refid="Base_Column_List" />
 		from usertable
-		where name = #{userName}
+		<where>
+			<if test=" userName.equals('billy')">
+				and name = 'billytest'
+			</if>
+			<if test=" userName.equals('billy2')">
+				and name = 'billytest2'
+			</if>
+		</where>
 	</select>
 
 </mapper>

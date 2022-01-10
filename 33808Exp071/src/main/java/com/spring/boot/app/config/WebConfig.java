@@ -30,14 +30,14 @@ public class WebConfig implements WebMvcConfigurer {
 	}
 
 
-	@Bean
-	public InternalResourceViewResolver internalViewResolver() {
-		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-		resolver.setPrefix("/WEB-INF/jsp/");
-		resolver.setSuffix(".jsp");
-		resolver.setViewNames(new String[]{"hello"});
-		return resolver;
-	}
+//	@Bean
+//	public InternalResourceViewResolver internalViewResolver() {
+//		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+//		resolver.setPrefix("/WEB-INF/jsp/");
+//		resolver.setSuffix(".jsp");
+//		resolver.setViewNames(new String[]{"hello"});
+//		return resolver;
+//	}
 
 	/*
 	 * Configure ContentNegotiatingViewResolver

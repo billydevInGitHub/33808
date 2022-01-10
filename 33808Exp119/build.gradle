@@ -40,4 +40,6 @@ dependencies {
     implementation('mysql:mysql-connector-java:8.0.17')
     implementation('org.apache.tomcat:tomcat-jdbc:9.0.27')
     runtimeOnly('javax.xml.bind:jaxb-api:2.4.0-b180830.0359')
+
+    compile 'org.junit.jupiter:junit-jupiter:5.7.1'
 }

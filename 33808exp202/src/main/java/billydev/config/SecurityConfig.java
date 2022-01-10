@@ -25,7 +25,7 @@ import java.io.PrintWriter;
  * @author Billy
  */
 @Configuration
-@Profile(value="Dev & Production")
+@Profile(value="Production")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

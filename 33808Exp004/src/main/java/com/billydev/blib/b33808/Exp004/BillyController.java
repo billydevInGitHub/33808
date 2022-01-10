@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 public class BillyController {
 
 	
-	@Value("${application.message:Hello Billy from @Value}")
+	@Value("${application.message}")
 	private String message = "Hello Billy from Billy Controller ";
 
 	@GetMapping("/")

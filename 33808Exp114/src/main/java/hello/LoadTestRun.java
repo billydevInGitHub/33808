@@ -8,7 +8,7 @@ public class LoadTestRun {
     public static void main(String[] args) {
 
         System.out.println("client start time:"+ new Date().toString());
-        int threadNumber=3000;
+        int threadNumber=100;
         for (int i = 0; i < threadNumber; i++) {
             new Thread(()->{
                 System.out.println(new GreetingWebClient().getResult());

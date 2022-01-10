@@ -40,7 +40,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
-        <!-- tag::security[] -->
+<!--         tag::security[]-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -49,7 +49,7 @@
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
-        <!-- end::security[] -->
+<!--         end::security[]-->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
