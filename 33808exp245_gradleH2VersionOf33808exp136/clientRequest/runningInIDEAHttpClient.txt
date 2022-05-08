@@ -1,0 +1,24 @@
+### Do this first
+POST http://localhost:8080/api/auth/signup
+Content-Type: application/json
+
+{
+  "username": "mod",
+  "email": "billy@test.com",
+  "role":["admin"],
+  "password": "123456"
+}
+
+
+### then we can sign in, got the token
+POST http://localhost:8080/api/auth/signin
+Content-Type: application/json
+
+{
+  "username": "mod",
+  "password": "123456"
+}
+
+###got back using token  (after bearer no curly bracket), worked 220508-1-S015
+GET http://localhost:8080/api/test/admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtb2QiLCJpYXQiOjE2NTIwNDg5NzksImV4cCI6MTY1MjEzNTM3OX0.0KbIRcrT0JPx4I_3RVxdFcwkdcOSN5dnK8SGC9DEbJIGArlGMUrEQBoxJ7TtsgIDMDArEttgCMIpPmysAGPH3g
