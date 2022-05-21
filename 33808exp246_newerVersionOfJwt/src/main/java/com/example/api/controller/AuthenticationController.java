@@ -78,48 +78,48 @@ public class AuthenticationController {
         }
     }
 
-//    @PostMapping("/register")
-//    public ResponseEntity<?> saveUser(@RequestParam("first_name") String firstName,
-//                                      @RequestParam("last_name") String lastName,
-//                                      @RequestParam("user_name") String userName, @RequestParam("email") String email
-//            , @RequestParam("password") String password) {
-//        Map<String, Object> responseMap = new HashMap<>();
-//        User user = new User();
-//        user.setFirstName(firstName);
-//        user.setLastName(lastName);
-//        user.setEmail(email);
-//        user.setPassword(new BCryptPasswordEncoder().encode(password));
-//        user.setRole("USER");
-//        user.setUserName(userName);
-//        UserDetails userDetails = userDetailsService.createUserDetails(userName, user.getPassword());
-//        String token = jwtTokenUtil.generateToken(userDetails);
-//        userRepository.save(user);
-//        responseMap.put("error", false);
-//        responseMap.put("username", userName);
-//        responseMap.put("message", "Account created successfully");
-//        responseMap.put("token", token);
-//        return ResponseEntity.ok(responseMap);
-//    }
-
-
-
     @PostMapping("/register")
-    public ResponseEntity<?> saveUser() {
+    public ResponseEntity<?> saveUser(@RequestParam("first_name") String firstName,
+                                      @RequestParam("last_name") String lastName,
+                                      @RequestParam("user_name") String userName, @RequestParam("email") String email
+            , @RequestParam("password") String password) {
         Map<String, Object> responseMap = new HashMap<>();
         User user = new User();
-        user.setFirstName("billy");
-        user.setLastName("li");
-        user.setEmail("test email");
-        user.setPassword(new BCryptPasswordEncoder().encode("123456"));
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setRole("USER");
-        user.setUserName("billyli");
-        UserDetails userDetails = userDetailsService.createUserDetails("billy li", user.getPassword());
+        user.setUserName(userName);
+        UserDetails userDetails = userDetailsService.createUserDetails(userName, user.getPassword());
         String token = jwtTokenUtil.generateToken(userDetails);
         userRepository.save(user);
         responseMap.put("error", false);
-        responseMap.put("username", "billy li");
+        responseMap.put("username", userName);
         responseMap.put("message", "Account created successfully");
         responseMap.put("token", token);
         return ResponseEntity.ok(responseMap);
     }
+
+
+
+//    @PostMapping("/register")
+//    public ResponseEntity<?> saveUser() {
+//        Map<String, Object> responseMap = new HashMap<>();
+//        User user = new User();
+//        user.setFirstName("billy");
+//        user.setLastName("li");
+//        user.setEmail("test email");
+//        user.setPassword(new BCryptPasswordEncoder().encode("123456"));
+//        user.setRole("USER");
+//        user.setUserName("billyli");
+//        UserDetails userDetails = userDetailsService.createUserDetails("billy li", user.getPassword());
+//        String token = jwtTokenUtil.generateToken(userDetails);
+//        userRepository.save(user);
+//        responseMap.put("error", false);
+//        responseMap.put("username", "billy li");
+//        responseMap.put("message", "Account created successfully");
+//        responseMap.put("token", token);
+//        return ResponseEntity.ok(responseMap);
+//    }
 }
